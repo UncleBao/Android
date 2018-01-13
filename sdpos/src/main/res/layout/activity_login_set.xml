@@ -17,13 +17,6 @@
             android:orientation="horizontal" >
 
             <TextView
-                android:id="@+id/login_set_back"
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:textAppearance="@style/Large" />
-
-            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -85,6 +78,13 @@
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/login_set_back"
+                style="@style/btn_a"
+                android:layout_width="110dp"
+                android:text="返回"
+                android:textAppearance="@style/Large" />
 
             <Button
                 android:id="@+id/login_set_save"

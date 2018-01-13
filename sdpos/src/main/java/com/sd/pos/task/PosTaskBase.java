@@ -24,7 +24,7 @@ public abstract class PosTaskBase extends TaskBase {
 
     @Override
     protected String doInThread() {
-        return httpPost(Config.url + method, createParam());
+        return httpPost(Config.URL + method, createParam());
     }
 
     // 任务成功

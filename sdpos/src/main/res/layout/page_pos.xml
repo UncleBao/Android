@@ -1,0 +1,178 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView style="@style/input_label" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F2F2F2"
+        android:orientation="horizontal"
+        android:padding="6dp">
+
+        <LinearLayout style="@style/input_content">
+
+            <TextView
+                style="@style/input_label"
+                android:text="仓库" />
+
+            <EditText style="@style/input_edit" />
+        </LinearLayout>
+
+
+        <LinearLayout style="@style/input_content">
+
+            <TextView
+                style="@style/input_label"
+                android:text="经手人" />
+
+            <EditText style="@style/input_edit" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/input_content">
+
+            <TextView
+                style="@style/input_label"
+                android:text="条码" />
+
+            <EditText style="@style/input_edit" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/darkturquoise"
+        android:gravity="bottom">
+
+        <TextView
+            style="@style/textReportHeader"
+            android:text="序号"
+            android:visibility="visible" />
+
+        <TextView
+            style="@style/textReportHeader"
+            android:text="商品编码"
+            android:visibility="visible" />
+
+        <TextView
+            style="@style/textReportHeader"
+            android:text="商品名称"
+            android:visibility="visible" />
+
+        <TextView
+            style="@style/textReportHeader"
+            android:text="颜色代号"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/page_report_monitor_list_title_Qty"
+            style="@style/textReportHeader"
+            android:text="颜色名称"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/page_report_monitor_list_title_QtyRate"
+            style="@style/textReportHeader"
+            android:text="尺码代号"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/page_report_monitor_list_title_Amount"
+            style="@style/textReportHeader"
+            android:text="尺码"
+            android:visibility="visible" />
+
+        <TextView
+            style="@style/textReportHeader"
+            android:text="数量"
+            android:visibility="visible" />
+
+        <TextView
+            style="@style/textReportHeader"
+            android:text="单价"
+            android:visibility="visible" />
+
+        <TextView
+            style="@style/textReportHeader"
+            android:text="折扣"
+            android:visibility="visible" />
+
+        <TextView
+            style="@style/textReportHeader"
+            android:text="金额"
+            android:visibility="visible" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/page_pos_list"
+        style="@style/listview" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F2F2F2"
+        android:orientation="horizontal"
+        android:padding="6dp"
+        android:visibility="gone">
+
+        <LinearLayout style="@style/input_content">
+
+            <TextView
+                style="@style/input_label"
+                android:text="stock" />
+
+            <EditText style="@style/input_edit" />
+        </LinearLayout>
+
+
+        <LinearLayout style="@style/input_content">
+
+            <TextView
+                style="@style/input_label"
+                android:text="stock" />
+
+            <EditText style="@style/input_edit" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/input_content">
+
+            <TextView
+                style="@style/input_label"
+                android:text="stock" />
+
+            <EditText style="@style/input_edit" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F2F2F2"
+        android:gravity="right"
+        android:orientation="horizontal"
+        android:padding="6dp">
+
+        <Button
+            style="@style/btn_a"
+            android:text="新增" />
+
+        <Button
+            style="@style/btn_a"
+            android:text="取单" />
+
+        <Button
+            style="@style/btn_a"
+            android:text="挂单" />
+
+        <Button
+            style="@style/btn_a"
+            android:text="过账" />
+
+    </LinearLayout>
+
+</LinearLayout>

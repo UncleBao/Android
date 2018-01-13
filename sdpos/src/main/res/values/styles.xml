@@ -16,12 +16,22 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
+
     <style name="Large" parent="@android:style/TextAppearance.Large" />
 
     <style name="Medium" parent="@android:style/TextAppearance.Medium" />
 
     <style name="Small" parent="@android:style/TextAppearance.Small" />
 
+
+    <style name="textWhite">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:gravity">left</item>
+        <item name="android:textAppearance">@android:style/TextAppearance.Small</item>
+        <item name="android:textColor">#fff</item>
+    </style>
 
     <style name="info_row">
         <item name="android:layout_width">match_parent</item>
@@ -74,6 +84,7 @@
         <item name="android:background">@drawable/btn_a2</item>
         <item name="android:paddingTop">6dp</item>
         <item name="android:paddingBottom">6dp</item>
+        <item name="android:onClick">onClick</item>
         <item name="android:paddingLeft">6dp</item>
         <item name="android:paddingRight">6dp</item>
         <item name="android:layout_margin">2dp</item>
@@ -100,7 +111,7 @@
     <style name="login_row">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginTop">12dp</item>
     </style>
 
     <style name="input_login">
@@ -116,6 +127,16 @@
         <item name="android:textAppearance">@style/Medium</item>
         <item name="android:textColorHint">#B0C4DE</item>
         <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="listview">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@color/list_bg</item>
+        <item name="android:cacheColorHint">@color/transparent</item>
+        <item name="android:divider">@color/list_spliter</item>
+        <item name="android:dividerHeight">0.1dp</item>
     </style>
 
 </resources>

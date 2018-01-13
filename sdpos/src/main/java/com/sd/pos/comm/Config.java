@@ -5,5 +5,7 @@ package com.sd.pos.comm;
  */
 
 public class Config {
-    public static String url = "http://59.36.18.87:8089/Service1/";
+    public static String ApiKey = "";
+    public static String URL = "http://59.36.18.87:8089/Service1/";
+    public static String UserCode = "";
 }

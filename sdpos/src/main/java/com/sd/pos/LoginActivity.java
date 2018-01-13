@@ -6,6 +6,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.sd.pos.comm.Config;
+import com.sd.pos.comm.SharedPre;
 import com.sd.pos.task.TaskIsHasUser;
 import com.sd.pos.util.Util;
 
@@ -16,8 +18,6 @@ import butterknife.ButterKnife;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
 
-    @Bind(R.id.login_sign_in)
-    Button vSignIn;
     @Bind(R.id.login_UserCode)
     EditText vUserCode;
     @Bind(R.id.login_UserPassword)
@@ -32,6 +32,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         ButterKnife.bind(this);
 
         vSet.setOnClickListener(this);
+        init();
+    }
+
+    private void init(){
+        Config.URL =  SharedPre.get(this,SharedPre.Str.ServiceURL);
+        Config.UserCode =  SharedPre.get(this,SharedPre.Str.UserCode);
+        vUserCode.setText(Config.UserCode);
     }
 
     @Override
@@ -66,8 +73,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         TaskIsHasUser task = new TaskIsHasUser(this, "SP_PassIsRight", getStr(vUserCode), Util.toMD5(getStr(vPassword))) {
             @Override
             public void onTaskSuccess(JSONObject jsonObj) {
-                System.out.println("登录成功");
                 toast("登录成功");
+                SharedPre.save(LoginActivity.this,SharedPre.Str.UserCode,getStr(vUserCode));
+                gotoActivity(MainActivity.class);
             }
 
             @Override
