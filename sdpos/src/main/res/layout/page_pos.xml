@@ -3,8 +3,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView style="@style/input_label" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +16,10 @@
                 style="@style/input_label"
                 android:text="仓库" />
 
-            <EditText style="@style/input_edit" />
+            <TextView
+                android:id="@+id/page_pos_stock"
+                android:background="@drawable/input_a"
+                style="@style/input_edit" />
         </LinearLayout>
 
 
@@ -28,7 +29,10 @@
                 style="@style/input_label"
                 android:text="经手人" />
 
-            <EditText style="@style/input_edit" />
+            <EditText
+                android:id="@+id/page_pos_user"
+                style="@style/input_edit"
+                android:enabled="false" />
         </LinearLayout>
 
         <LinearLayout style="@style/input_content">
@@ -37,7 +41,9 @@
                 style="@style/input_label"
                 android:text="条码" />
 
-            <EditText style="@style/input_edit" />
+            <EditText
+                android:id="@+id/page_pos_barcode"
+                style="@style/input_edit_barcode" />
         </LinearLayout>
 
     </LinearLayout>
@@ -109,45 +115,7 @@
 
     <ListView
         android:id="@+id/page_pos_list"
-        style="@style/listview" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#F2F2F2"
-        android:orientation="horizontal"
-        android:padding="6dp"
-        android:visibility="gone">
-
-        <LinearLayout style="@style/input_content">
-
-            <TextView
-                style="@style/input_label"
-                android:text="stock" />
-
-            <EditText style="@style/input_edit" />
-        </LinearLayout>
-
-
-        <LinearLayout style="@style/input_content">
-
-            <TextView
-                style="@style/input_label"
-                android:text="stock" />
-
-            <EditText style="@style/input_edit" />
-        </LinearLayout>
-
-        <LinearLayout style="@style/input_content">
-
-            <TextView
-                style="@style/input_label"
-                android:text="stock" />
-
-            <EditText style="@style/input_edit" />
-        </LinearLayout>
-
-    </LinearLayout>
+        style="@style/list_view" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -158,18 +126,22 @@
         android:padding="6dp">
 
         <Button
+            android:id="@+id/page_pos_CreateBill"
             style="@style/btn_a"
             android:text="新增" />
 
         <Button
+            android:id="@+id/page_pos_GetBill"
             style="@style/btn_a"
             android:text="取单" />
 
         <Button
+            android:id="@+id/page_pos_SaveBill"
             style="@style/btn_a"
             android:text="挂单" />
 
         <Button
+            android:id="@+id/page_pos_CommitBill"
             style="@style/btn_a"
             android:text="过账" />
 

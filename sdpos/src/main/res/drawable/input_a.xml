@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 选中为好看的绿色 , 默认为较深的蓝色 -->
+    <item android:state_pressed="true">
+        <shape>
+
+            <!-- 描边 -->
+            <stroke android:width="1dp" android:color="#00bfff" />
+            <!-- 圆角 -->
+            <corners android:radius="5dp" />
+            <!-- 填充 -->
+            <solid android:color="@android:color/transparent" />
+        </shape>
+    </item>
+    <item android:state_checked="true">
+        <shape>
+
+            <!-- 描边 -->
+            <stroke android:width="1dp" android:color="#00bfff" />
+            <!-- 圆角 -->
+            <corners android:radius="5dp" />
+            <!-- 填充 -->
+            <solid android:color="#fff" />
+        </shape>
+    </item>
+    <item android:state_focused="true">
+        <shape>
+
+            <!-- 描边 -->
+            <stroke android:width="1dp" android:color="#00bfff" />
+            <!-- 圆角 -->
+            <corners android:radius="5dp" />
+            <!-- 填充 -->
+            <solid android:color="#fff" />
+        </shape>
+    </item>
+    <item android:state_selected="true">
+        <shape>
+
+            <!-- 描边 -->
+            <stroke android:width="1dp" android:color="#00bfff" />
+            <!-- 圆角 -->
+            <corners android:radius="5dp" />
+            <!-- 填充 -->
+            <solid android:color="#fff" />
+        </shape>
+    </item>
+    <item android:state_enabled="false">
+        <shape>
+
+            <!-- 描边 -->
+            <stroke android:width="1dp" android:color="#4BB26D" />
+            <!-- 圆角 -->
+            <corners android:radius="5dp" />
+            <!-- 填充 -->
+            <solid android:color="#cccccc" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+
+            <!-- 描边 -->
+            <stroke android:width="1dp" android:color="#4BB26D" />
+            <!-- 圆角 -->
+            <corners android:radius="5dp" />
+            <!-- 填充 -->
+            <solid android:color="#fff" />
+        </shape>
+    </item>
+
+</selector>

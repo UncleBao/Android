@@ -80,21 +80,6 @@
                 android:text="@android:string/ok"
                 android:textAppearance="@style/Medium" />
         </FrameLayout>
-
-        <!-- 最多支持3个按钮,第三个按钮默认隐藏 -->
-
-        <TextView
-            android:layout_width="1dp"
-            android:layout_height="1dp"
-            android:layout_margin="10dp"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/HKDialog_bt3"
-            style="@style/btn_a_weight1"
-            android:layout_weight="1"
-            android:text="@android:string/ok"
-            android:visibility="gone" />
     </LinearLayout>
 
 </LinearLayout>

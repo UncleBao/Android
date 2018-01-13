@@ -23,13 +23,16 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">center</item>
+        <item name="android:paddingLeft">2dp</item>
+        <item name="android:paddingRight">2dp</item>
         <item name="android:orientation">horizontal</item>
     </style>
 
     <style name="input_label">
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center_vertical|right</item>
         <item name="android:textAppearance">@style/Medium</item>
         <item name="android:textColor">@color/formValue</item>
         <item name="android:paddingLeft">0dp</item>
@@ -37,20 +40,59 @@
     </style>
 
     <style name="input_edit">
-        <item name="android:layout_width">180dp</item>
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:inputType">none</item>
         <item name="android:imeOptions">actionDone</item>
         <item name="android:singleLine">true</item>
         <item name="android:maxLines">1</item>
-        <item name="android:paddingTop">6dp</item>
-        <item name="android:paddingBottom">6dp</item>
-        <item name="android:paddingLeft">6dp</item>
-        <item name="android:paddingRight">6dp</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:background">@drawable/input_a</item>
         <item name="android:textCursorDrawable">@null</item>
         <item name="android:textAppearance">@style/Medium</item>
         <item name="android:textColor">@color/formValue</item>
+    </style>
+
+    <style name="input_edit_barcode">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:imeOptions">actionNone</item>
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:singleLine">false</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:background">@drawable/input_a</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:textAppearance">@style/Medium</item>
+        <item name="android:textColor">@color/formValue</item>
+    </style>
+
+    <!-- ==============================输入框 ========================== -->
+
+    <style name="login_row">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">12dp</item>
+    </style>
+
+    <style name="input_login">
+        <item name="android:drawable">@drawable/input_a</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:gravity">center_vertical|left</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:textAppearance">@style/Medium</item>
+        <item name="android:textColorHint">#B0C4DE</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="textReportHeader">

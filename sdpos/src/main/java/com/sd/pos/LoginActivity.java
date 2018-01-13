@@ -35,9 +35,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         init();
     }
 
-    private void init(){
-        Config.URL =  SharedPre.get(this,SharedPre.Str.ServiceURL);
-        Config.UserCode =  SharedPre.get(this,SharedPre.Str.UserCode);
+    private void init() {
+        Config.URL = SharedPre.get(this, SharedPre.Str.ServiceURL);
+        Config.UserCode = SharedPre.get(this, SharedPre.Str.UserCode);
         vUserCode.setText(Config.UserCode);
     }
 
@@ -70,11 +70,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     public void doLogin() {
-        TaskIsHasUser task = new TaskIsHasUser(this, "SP_PassIsRight", getStr(vUserCode), Util.toMD5(getStr(vPassword))) {
+        final String UserCode = getStr(vUserCode);
+
+        TaskIsHasUser task = new TaskIsHasUser(this, "SP_PassIsRight", UserCode, Util.toMD5(getStr(vPassword))) {
             @Override
             public void onTaskSuccess(JSONObject jsonObj) {
                 toast("登录成功");
-                SharedPre.save(LoginActivity.this,SharedPre.Str.UserCode,getStr(vUserCode));
+                Config.UserCode = UserCode;
+                SharedPre.save(LoginActivity.this, SharedPre.Str.UserCode, UserCode);
                 gotoActivity(MainActivity.class);
             }
 

@@ -106,30 +106,21 @@
         <item name="android:textColor">#fff</item>
     </style>
 
-    <!-- ==============================输入框 ========================== -->
-
-    <style name="login_row">
-        <item name="android:layout_width">match_parent</item>
+    <!-- 没有文本的按钮,背景自定义 -->
+    <style name="btn_null">
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="android:background">@drawable/btn_null</item>
+        <item name="android:onClick">onClick</item>
+        <item name="android:clickable">true</item>
     </style>
 
-    <style name="input_login">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingLeft">16dp</item>
-        <item name="android:paddingRight">16dp</item>
-        <item name="android:paddingTop">6dp</item>
-        <item name="android:paddingBottom">6dp</item>
-        <item name="android:gravity">center_vertical|left</item>
-        <item name="android:textCursorDrawable">@null</item>
-        <item name="android:textAppearance">@style/Medium</item>
-        <item name="android:textColorHint">#B0C4DE</item>
-        <item name="android:textColor">@color/black</item>
-    </style>
 
-    <style name="listview">
+
+    <!-- ==============================listview ========================== -->
+
+    <style name="list_view">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0dp</item>
         <item name="android:layout_weight">1</item>
@@ -137,6 +128,24 @@
         <item name="android:cacheColorHint">@color/transparent</item>
         <item name="android:divider">@color/list_spliter</item>
         <item name="android:dividerHeight">0.1dp</item>
+    </style>
+
+    <style name="list_item_w6">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">6</item>
+        <item name="android:textAppearance">@style/Small</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:gravity">left|center_vertical</item>
+    </style>
+
+    <style name="list_item_w3">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">3</item>
+        <item name="android:textAppearance">@style/Medium</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:gravity">center</item>
     </style>
 
 </resources>
