@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<!-- 默认为好看的绿色 -->
+    <item android:state_pressed="true"><shape>
+
+            <!-- 描边 -->
+            <stroke android:width="0dp" />
+            <!-- 圆角 -->
+            <corners android:radius="5dp" />
+            <!-- 填充 -->
+            <solid android:color="#14ADD9" />
+        </shape></item>
+    <item android:state_checked="true"><shape>
+
+            <!-- 描边 -->
+            <stroke android:width="0dp" />
+            <!-- 圆角 -->
+            <corners android:radius="5dp" />
+            <!-- 填充 -->
+            <solid android:color="#14ADD9" />
+        </shape></item>
+    <item android:state_focused="true"><shape>
+
+            <!-- 描边 -->
+            <stroke android:width="0dp" />
+            <!-- 圆角 -->
+            <corners android:radius="5dp" />
+            <!-- 填充 -->
+            <solid android:color="#14ADD9" />
+        </shape></item>
+    <item android:state_selected="true"><shape>
+
+            <!-- 描边 -->
+            <stroke android:width="0dp" />
+            <!-- 圆角 -->
+            <corners android:radius="5dp" />
+            <!-- 填充 -->
+            <solid android:color="#14ADD9" />
+        </shape></item>
+    <item><shape>
+
+            <!-- 圆角 -->
+            <corners android:radius="5dp" />
+            <!-- 填充 -->
+            <solid android:color="#2481C6" />
+        </shape></item>
+
+</selector>

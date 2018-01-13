@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <!-- title -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/HKDialog_title"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/bg_dialog_title"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="提示"
+            android:textAppearance="@style/Medium"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <!-- msg -->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp" >
+
+        <TextView
+            android:id="@+id/HKDialog_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textAppearance="@style/Small"
+            android:textColor="@color/black" />
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="8dp" >
+
+        <Button
+            android:id="@+id/HKDialog_bt2"
+            style="@style/btn_a_weight1"
+            android:text="@android:string/cancel"
+            android:textAppearance="@style/Medium"
+            android:textColor="#fff" />
+
+        <TextView
+            android:layout_width="6dp"
+            android:layout_height="1dp" />
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <!-- 用来获取焦点,接收回车事件 -->
+
+            <TextView
+                android:id="@+id/HKDialog_input"
+                android:layout_width="1dp"
+                android:layout_height="1dp"
+                android:layout_margin="10dp" />
+
+            <Button
+                android:id="@+id/HKDialog_bt1"
+                style="@style/btn_a"
+                android:layout_width="match_parent"
+                android:text="@android:string/ok"
+                android:textAppearance="@style/Medium" />
+        </FrameLayout>
+
+        <!-- 最多支持3个按钮,第三个按钮默认隐藏 -->
+
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:layout_margin="10dp"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/HKDialog_bt3"
+            style="@style/btn_a_weight1"
+            android:layout_weight="1"
+            android:text="@android:string/ok"
+            android:visibility="gone" />
+    </LinearLayout>
+
+</LinearLayout>
