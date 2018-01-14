@@ -1,4 +1,4 @@
-package com.sd.pos.db;
+package com.yihujiu.util.sqlit;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.sd.pos.ex.DialogOK;
 import com.sd.pos.table.DataRow;
 import com.sd.pos.table.DataTable;
 
@@ -156,9 +155,7 @@ public abstract class SQLiteOpenHelperBase extends SQLiteOpenHelper {
         }
     }
 
-    protected void showError(String msg) {
-        DialogOK dialog1 = new DialogOK(context, "APP数据库错误", msg);
-        dialog1.show();
-    }
+
+    public abstract void showError(String msg);
 
 }

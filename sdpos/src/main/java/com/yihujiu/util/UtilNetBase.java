@@ -1,4 +1,4 @@
-package com.sd.pos.util;
+package com.yihujiu.util;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -21,9 +21,6 @@ import java.util.regex.Pattern;
 
 /**
  * 网络请求基础模块,支持post和get,数据格式:json
- * 
- * @author yi.zhe
- * 
  */
 public class UtilNetBase {
 

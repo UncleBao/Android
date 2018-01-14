@@ -2,14 +2,13 @@ package com.sd.pos;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.sd.pos.comm.Config;
 import com.sd.pos.comm.SharedPre;
 import com.sd.pos.task.TaskIsHasUser;
-import com.sd.pos.util.Util;
+import com.yihujiu.util.Util;
 
 import org.json.JSONObject;
 

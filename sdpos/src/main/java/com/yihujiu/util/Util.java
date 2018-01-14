@@ -1,4 +1,4 @@
-package com.sd.pos.util;
+package com.yihujiu.util;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -21,9 +21,6 @@ import java.util.Date;
 
 /**
  * 工具类:包括最常用的字符串为空的检验,时间的格式化,数字的格式化,取精度,sql语句拼接等
- * 
- * @author 包子大叔
- * @time 2013-8-29 上午10:40:57
  */
 public class Util {
 

@@ -1,4 +1,4 @@
-package com.sd.pos.db;
+package com.yihujiu.util.sqlit;
 
 import android.database.sqlite.SQLiteDatabase;
 

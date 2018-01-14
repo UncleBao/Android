@@ -3,7 +3,7 @@ package com.sd.pos.dbhelp;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.sd.pos.db.IDBCreator;
+import com.yihujiu.util.sqlit.IDBCreator;
 
 /**
  * Created by Administrator on 2018/1/14.

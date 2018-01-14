@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.sd.pos.R;
-import com.sd.pos.util.Util;
+import com.yihujiu.util.Util;
 
 
 /**
