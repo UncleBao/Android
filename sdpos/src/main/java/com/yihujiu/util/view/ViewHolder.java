@@ -1,4 +1,4 @@
-package com.sd.pos.ex;
+package com.yihujiu.util.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -11,9 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * Created by yi.zhe on 2016/4/30.
+ * CommonAdapter用的ViewHolder
  */
-
 public class ViewHolder {
     private final SparseArray<View> mViews;
     private int mPosition;

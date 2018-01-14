@@ -1,17 +1,15 @@
-package com.sd.pos.ex;
+package com.yihujiu.util.view;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.sd.pos.R;
-
 import java.util.List;
 
 /**
- * Created by yi.zhe on 2016/4/30.
  * 通用的适配器
  */
 public abstract class CommonAdapter<T> extends BaseAdapter {
@@ -19,9 +17,7 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
     protected Context mContext;
     protected List<T> list;
     protected final int mItemLayoutId;
-    //该属性使用于设置当前的listview是否需要实现点击改变背景颜色,可在convert方法里面设置其属性
-    protected boolean IsNeedSetBackGround = false;
-    private int focusIndex = 0;
+    private int focusIndex = -1; //焦点行,focusIndex>0时,焦点行突出显示,其他行背景为透明
 
     //itemLayoutId: item的布局
     public CommonAdapter(Context context, List<T> datas, int itemLayoutId) {
@@ -55,17 +51,17 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder viewHolder = getViewHolder(position, convertView, parent);
         convert(viewHolder, getItem(position));
-        setBackGround(position,viewHolder.mConvertView);
+        setBackGround(position, viewHolder.mConvertView);
         return viewHolder.getConvertView();
     }
 
     //根据当前点击的item,设置item的背景颜色
     public void setBackGround(int position, View convertView) {
-        if (IsNeedSetBackGround) {
+        if (focusIndex >= 0) {
             if (position == focusIndex) {
-                convertView.setBackgroundResource(R.color.list_bg_focus);
+                convertView.setBackgroundColor(Color.parseColor("#ADD8E6"));
             } else {
-                convertView.setBackgroundResource(R.color.transparent);
+                convertView.setBackgroundColor(Color.parseColor("#00000000"));
             }
         }
     }

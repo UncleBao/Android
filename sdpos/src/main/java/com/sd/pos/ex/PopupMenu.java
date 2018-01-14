@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.sd.pos.R;
 import com.yihujiu.util.Util;
+import com.yihujiu.util.view.CommonAdapter;
+import com.yihujiu.util.view.ViewHolder;
 
 import java.util.ArrayList;
 
@@ -27,7 +29,7 @@ public abstract class PopupMenu extends Dialog implements OnItemClickListener {
     Context context;
     private TextView titleView;
     private ListView vList;
-    private CommonAdapter<String> adapter;
+    public CommonAdapter<String> adapter;
     int mTextSize = 20;// 菜单项字体大小,单位pd
 
     ArrayList<String> list;
