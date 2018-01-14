@@ -73,6 +73,8 @@ public abstract class SQLiteOpenHelperBase extends SQLiteOpenHelper {
             db.setTransactionSuccessful();
             return "1";
         } catch (Exception ex) {
+            System.out.println(ex);
+            showError("(execSQL0):" + ex.getMessage());
             return ex.getMessage();
         } finally {
             db.endTransaction();
@@ -92,6 +94,8 @@ public abstract class SQLiteOpenHelperBase extends SQLiteOpenHelper {
             db.setTransactionSuccessful();
             return "1";
         } catch (Exception ex) {
+            System.out.println(ex);
+            showError("(execSQL2):" + ex.getMessage());
             return ex.getMessage();
         } finally {
             db.endTransaction();
@@ -103,7 +107,7 @@ public abstract class SQLiteOpenHelperBase extends SQLiteOpenHelper {
      * 通用执行sql,,多用于事务中,db在这里不会关闭
      */
     public static void execSQL(SQLiteDatabase db, String sql) {
-        System.out.println("==execSQL==" + sql);
+        System.out.println("==execSQL1==" + sql);
         db.execSQL(sql);
     }
 
@@ -144,8 +148,9 @@ public abstract class SQLiteOpenHelperBase extends SQLiteOpenHelper {
                 table.addRow(new DataRow(table, row));
             }
             return table;
-        } catch (Exception e) {
-            showError("(getTableBySql):" + e.getMessage());
+        } catch (Exception ex) {
+            System.out.println(ex);
+            showError("(getTableBySql):" + ex.getMessage());
             return null;
         } finally {
             if (null != cursor) {

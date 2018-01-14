@@ -9,8 +9,11 @@ import android.widget.TextView;
 import com.sd.pos.BaseFragment;
 import com.sd.pos.R;
 import com.sd.pos.comm.Config;
+import com.sd.pos.dbhelp.DBHelper;
+import com.sd.pos.dbhelp.EnumHelper;
 import com.sd.pos.ex.PopupMenu;
-import com.sd.pos.ex.TextWatcher4Scan;
+import com.sd.pos.table.DataTable;
+import com.yihujiu.util.view.TextWatcher4Enter;
 import com.sd.pos.task.TaskGetSTKList;
 
 import java.util.ArrayList;
@@ -28,6 +31,10 @@ public class PagePos extends BaseFragment implements OnClickListener {
 
     String StockCode;
 
+    EnumHelper enumHelper;
+
+    final String LastStockCode = "LastStockCode";
+
     @Override
     protected int getLayout() {
         return R.layout.page_pos;
@@ -41,9 +48,9 @@ public class PagePos extends BaseFragment implements OnClickListener {
         vList = (ListView) findViewById(R.id.page_pos_list);
 
         vStock.setOnClickListener(this);
-        vBarcode.addTextChangedListener(new TextWatcher4Scan(vBarcode) {
+        vBarcode.addTextChangedListener(new TextWatcher4Enter(vBarcode) {
             @Override
-            public void onScanEnter(EditText v, String str) {
+            public void onScanEnter(String str) {
                 //根据条码获取数据
                 System.out.println(str);
             }
@@ -51,6 +58,10 @@ public class PagePos extends BaseFragment implements OnClickListener {
 
         vUser.setText(Config.UserCode);
         vBarcode.requestFocus();
+
+        enumHelper = new EnumHelper(activity);
+        StockCode = enumHelper.getOneCode(LastStockCode);
+        vStock.setText(StockCode);
     }
 
     @Override
@@ -81,6 +92,7 @@ public class PagePos extends BaseFragment implements OnClickListener {
         PopupMenu popup = new PopupMenu(activity, StockList) {
             @Override
             public void onItemClick(int position) {
+                enumHelper.saveEnum(LastStockCode, 0, StockList.get(position));
                 vStock.setText(StockList.get(position));
             }
         };

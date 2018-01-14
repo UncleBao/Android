@@ -69,12 +69,12 @@ class DBCreator implements IDBCreator {
     public static void createENUM(SQLiteDatabase db) {
         StringBuilder sql = new StringBuilder();
         sql.append("CREATE TABLE IF NOT EXISTS ENUM (");
-        sql.append(" EnumType TEXT COLLATE NoCase,"); //类型
-        sql.append(" EnumID INTEGER COLLATE NoCase,"); //
-        sql.append(" EnumCode TEXT COLLATE NoCase,"); //
-        sql.append(" EnumName TEXT COLLATE NoCase,"); //
-        sql.append(" EnumKey TEXT COLLATE NoCase,"); //键,扩展用
-        sql.append(" PRIMARY KEY (EnumType,EnumID) )");
+        sql.append(" key TEXT COLLATE NoCase,"); //枚举类型
+        sql.append(" id INTEGER COLLATE NoCase,"); //枚举键
+        sql.append(" code TEXT COLLATE NoCase,"); //枚举值
+        sql.append(" code2 TEXT COLLATE NoCase,"); //扩展
+        sql.append(" code3 TEXT COLLATE NoCase,"); //扩展
+        sql.append(" PRIMARY KEY (key,id) )");
         db.execSQL(sql.toString());
     }
 
