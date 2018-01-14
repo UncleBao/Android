@@ -14,22 +14,16 @@ import java.util.ArrayList;
 
 /**
  * 数据库基本操作类,数据库的创建,更新的操作都在这里进行
- *
- * @author yizhe
- * @date 2012-5-18
  */
-public abstract class HKSQLiteOpenHelper extends SQLiteOpenHelper {
+public abstract class SQLiteOpenHelperBase extends SQLiteOpenHelper {
 
     static String name = "sdpos.db"; // 数据库名称
     static CursorFactory cursorFactory = null;
     protected Context context;
 
-    protected String tableName = ""; // 表名,留给子类设置
-
-    public HKSQLiteOpenHelper(Context context, int version) {
+    public SQLiteOpenHelperBase(Context context, int version) {
         super(context, name, cursorFactory, version);
         this.context = context;
-        this.tableName = setTableName();
     }
 
     /**
@@ -37,15 +31,15 @@ public abstract class HKSQLiteOpenHelper extends SQLiteOpenHelper {
      */
     public void onCreate(SQLiteDatabase db) {
         // 所有表的创建过程都在这里进行
-        setDBCreater().CreateDatabase(db);
+        setDBCreator().CreateDatabase(db);
     }
 
     /**
      * 覆盖安装,当版本号version发生变化的时候,这个方法才会被调用,而且只执行一次
      */
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        setDBCreater().CreateDatabase(db);
-        setDBCreater().UpdateDatabase(db, oldVersion, newVersion);
+        setDBCreator().CreateDatabase(db);
+        setDBCreator().UpdateDatabase(db, oldVersion, newVersion);
     }
 
     /**
@@ -59,15 +53,12 @@ public abstract class HKSQLiteOpenHelper extends SQLiteOpenHelper {
         close();
     }
 
-    // --------------------------表配置---------------------------------//
+    // --------------------------创建数据库---------------------------------//
 
     /**
      * 设置创建数据库的类
      */
-    protected abstract IDBCreater setDBCreater();
-
-    // 强制实现,防止漏写表名
-    protected abstract String setTableName();
+    protected abstract IDBCreator setDBCreator();
 
     // --------------------------sql方法---------------------------------//
 
@@ -75,6 +66,7 @@ public abstract class HKSQLiteOpenHelper extends SQLiteOpenHelper {
      * 执行sql, 返回1表示成功, 返回其他表示执行失败, 返回的内容就是错误提示
      */
     public String execSQL(String sql) {
+        System.out.println("==execSQL0==" + sql);
         SQLiteDatabase db = getWritableDatabase();
         try {
             db.beginTransaction();
@@ -93,6 +85,7 @@ public abstract class HKSQLiteOpenHelper extends SQLiteOpenHelper {
      * 执行sql, 返回1表示成功, 返回其他表示执行失败, 返回的内容就是错误提示
      */
     public String execSQL(String sql, String[] param) {
+        System.out.println("==execSQL2==" + sql);
         SQLiteDatabase db = getWritableDatabase();
         try {
             db.beginTransaction();
@@ -115,64 +108,9 @@ public abstract class HKSQLiteOpenHelper extends SQLiteOpenHelper {
         db.execSQL(sql);
     }
 
-
     /**
-     * 删
-     *
-     * @param whereClause the optional WHERE clause to apply when deleting.
-     *                    Passing null will delete all rows.
-     * @param whereArgs   You may include ?s in the where clause, which
-     *                    will be replaced by the values from whereArgs. The values
-     *                    will be bound as Strings.
-     * @return the number of rows affected if a whereClause is passed in, 0
-     * otherwise. To remove all rows and get a count pass "1" as the
-     * whereClause.
-     **/
-    public int delete(String whereClause, String[] whereArgs) {
-        SQLiteDatabase db = getWritableDatabase();
-        int result = db.delete(tableName, whereClause, whereArgs);
-        System.out.println("===delete=== " + tableName + ":result:" + result + ":" + whereClause + whereArgs);
-        db.close();
-        return result;
-    }
-
-
-    public int delete(SQLiteDatabase db, String whereStr, String[] arr) {
-        int result = db.delete(tableName, whereStr, arr);
-        System.out.println("===delete=== " + tableName + ":result:" + result + ":" + whereStr + ":" + arr.toString());
-        return result;
-    }
-
-    //--------------------------根据ID执行的语句---表中主键必须是"id"(整型,自增长)--------------------
-
-    /**
-     * 根据id删除记录
-     *
-     * @param id 表中必须有"id"字段
-     * @return the number of rows affected if a whereClause is passed in, 0
-     * otherwise. To remove all rows and get a count pass "1" as the
-     * whereClause.
+     * SQL参数转换,防注入
      */
-    public int deleteByID(int id) {
-        SQLiteDatabase db = getWritableDatabase();
-        int result = db.delete(tableName, "id=?", new String[]{id + ""});
-        db.close();
-        return result;
-    }
-
-    /**
-     * 删除全表数据
-     *
-     * @return
-     */
-    public int delete() {
-        SQLiteDatabase db = getWritableDatabase();
-        int result = db.delete(tableName, null, null);
-        db.close();
-        return result;
-    }
-
-    //SQL参数防注入
     public static String SPF(String str) {
         if (null != str) {
             String tmp = str.replace("'", "''");
@@ -189,6 +127,7 @@ public abstract class HKSQLiteOpenHelper extends SQLiteOpenHelper {
      * @param params
      */
     public DataTable getTableBySql(String sql, String[] params) {
+        System.out.println("==getTableBySql==" + sql);
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = null;
         try {

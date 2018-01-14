@@ -12,9 +12,6 @@ import com.sd.pos.ex.DialogLoading;
  * 1,任务是否在执行的判断<br>
  * 2,弹出与取消[加载中...]对话框<br>
  * 3,调用类不存在时自动取消任务<br>
- *
- * @author yi.zhe
- * @time 2014-3-7 下午2:09:05
  */
 public abstract class TaskBase {
     public Activity activity;
