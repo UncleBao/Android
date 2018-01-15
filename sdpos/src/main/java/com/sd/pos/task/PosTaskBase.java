@@ -14,10 +14,6 @@ import static com.yihujiu.util.UtilNetBase.httpPost;
 public abstract class PosTaskBase extends TaskBase {
     public String method = "";
 
-    public PosTaskBase(Activity activity) {
-        super(activity);
-    }
-
     public PosTaskBase(Activity activity, String method) {
         super(activity);
         this.method = method;
@@ -28,7 +24,7 @@ public abstract class PosTaskBase extends TaskBase {
         return httpPost(Config.URL + method, createParam());
     }
 
-    // 任务成功
+    // 创建参数
     public abstract String createParam();
 
     // 任务成功
@@ -41,18 +37,20 @@ public abstract class PosTaskBase extends TaskBase {
 
     @Override
     protected void onTaskFinish(String result) {
+        JSONObject jsonObj = null;
         try {
-            JSONObject jsonObj = new JSONObject(result);
-
-            if (NetBase.isOK(jsonObj)) {
-                onTaskSuccess(jsonObj);
-            } else {
+            jsonObj = new JSONObject(result);
+            if (!NetBase.isOK(jsonObj)) {
                 onTaskFailed(NetBase.getMsg(jsonObj));
             }
         } catch (JSONException e) {
-            onTaskFailed(e.toString());
+            onTaskFailed("数据解析失败!" + '\n' + result);
             System.out.println("解析数据失败:" + e.toString() + "\n result:" + result);
+        } catch (Exception e) {
+            onTaskFailed("数据解析失败!202" + '\n' + result);
+            System.out.println("解析数据失败202:" + e.toString() + "\n result:" + result);
         }
+        onTaskSuccess(jsonObj);
     }
 
     // ----------------------------------工具-------------------------------------//

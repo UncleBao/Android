@@ -13,10 +13,6 @@ public abstract class TaskIsHasUser extends PosTaskBase {
     public String UserCode = "";
     public String Password = "";
 
-    public TaskIsHasUser(Activity activity) {
-        super(activity);
-    }
-
     public TaskIsHasUser(Activity activity, String method, String UserCode, String Password) {
         super(activity, method);
         this.UserCode = UserCode;

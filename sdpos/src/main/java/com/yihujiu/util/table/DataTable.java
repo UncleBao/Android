@@ -1,4 +1,4 @@
-package com.sd.pos.table;
+package com.yihujiu.util.table;
 
 import org.json.JSONArray;
 import org.json.JSONException;

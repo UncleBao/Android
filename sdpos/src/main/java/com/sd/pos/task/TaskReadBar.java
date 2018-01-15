@@ -16,21 +16,21 @@ import java.util.ArrayList;
  * Created by Administrator on 2018/1/13.
  */
 
-public abstract class TaskGetSTKList extends PosTaskBase {
-    public String UserCode = "";
+public abstract class TaskReadBar extends PosTaskBase {
+    public String barcode = "";
 
     public ArrayList<String> list = new ArrayList<String>();
 
-    public TaskGetSTKList(Activity activity, String UserCode) {
-        super(activity, "SP_GetSTKList");
-        this.UserCode = UserCode;
+    public TaskReadBar(Activity activity, String barcode) {
+        super(activity, "SP_Readbar");
+        this.barcode = barcode;
     }
 
     @Override
     public String createParam() {
         try {
             JSONObject params = NetBase.createBasParam();
-            params.put("UserCode", UserCode);
+            params.put("barcode", barcode);
             return params.toString();
         } catch (JSONException ex) {
             toast("初始化参数错误:" + ex.getMessage());
@@ -82,18 +82,20 @@ public abstract class TaskGetSTKList extends PosTaskBase {
                 }
                 dt = new DataTable(jsonArr);
 
-
                 if (!dt.haveData()) {
                     onTaskFailOrNoData(true, msg, msgList);
+                    return;
                 }
             } else {
                 msg = NetBase.getMsg(jsonObj);
                 msgList = NetBase.getMsgList(jsonObj);
                 onTaskFailOrNoData(false, msg, msgList);
+                return;
             }
         } catch (JSONException e) {
             onTaskFailOrNoData(false, "数据解析失败!" + '\n' + jsonObj.toString(), null);
             System.out.println("解析数据失败:" + e.toString() + "\n result:" + jsonObj.toString());
+            return;
         }
 
         onTaskSuccessAndHaveData(dt, isAsk, msg, msgList);

@@ -2,5 +2,6 @@
     <string name="app_name">森碟POS</string>
     <string name="descr_image">Image</string>
     <string name="dialog_title">提示</string>
+    <string name="msg_QueryNoData">没有查询到数据</string>
 
 </resources>

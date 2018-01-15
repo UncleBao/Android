@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sd.pos.dbhelp.EnumHelper;
 import com.sd.pos.ex.DialogOK;
 
 /**
@@ -30,6 +31,8 @@ public abstract class BaseFragment extends Fragment {
     public static final String BundleKey2 = "BundleKey2";//
     public static final String BundleKey3 = "BundleKey3";//
 
+    protected EnumHelper enumHelper; //枚举值操作类
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (null == vMain) {
@@ -39,7 +42,7 @@ public abstract class BaseFragment extends Fragment {
 
             // 优化输入模式
             activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-
+            enumHelper = new EnumHelper(activity);
             ini();
         }
         return vMain;
@@ -74,7 +77,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void toast(String msg) {
-       activity.toastMy(msg, Toast.LENGTH_LONG);
+        activity.toastMy(msg, Toast.LENGTH_LONG);
     }
 
     public void toast(int resId) {

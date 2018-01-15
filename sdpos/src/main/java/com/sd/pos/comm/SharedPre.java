@@ -110,7 +110,7 @@ public class SharedPre {
 	 * @return
 	 */
 	public static SharedPreferences getSharedPreferences(Context context) {
-		SharedPreferences settings = context.getSharedPreferences("hk", Activity.MODE_PRIVATE);
+		SharedPreferences settings = context.getSharedPreferences("yihujiu", Activity.MODE_PRIVATE);
 		return settings;
 	}
 

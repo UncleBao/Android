@@ -9,12 +9,14 @@ import android.widget.TextView;
 import com.sd.pos.BaseFragment;
 import com.sd.pos.R;
 import com.sd.pos.comm.Config;
-import com.sd.pos.dbhelp.DBHelper;
-import com.sd.pos.dbhelp.EnumHelper;
-import com.sd.pos.ex.PopupMenu;
-import com.sd.pos.table.DataTable;
+import com.sd.pos.ex.SelectWithTable;
+import com.yihujiu.util.table.DataRow;
+import com.yihujiu.util.table.DataTable;
+import com.sd.pos.task.TaskReadBar;
+import com.yihujiu.util.view.CommonTableAdapter;
 import com.yihujiu.util.view.TextWatcher4Enter;
 import com.sd.pos.task.TaskGetSTKList;
+import com.yihujiu.util.view.ViewHolder;
 
 import java.util.ArrayList;
 
@@ -26,14 +28,15 @@ public class PagePos extends BaseFragment implements OnClickListener {
     TextView vStock;
     EditText vUser, vBarcode;
     ListView vList;
+    CommonTableAdapter adapter;
 
-    ArrayList<String> StockList;
+    DataTable StockList;
+    DataTable dtDetail;
 
     String StockCode;
 
-    EnumHelper enumHelper;
-
     final String LastStockCode = "LastStockCode";
+    final String LastStockName = "LastStockName";
 
     @Override
     protected int getLayout() {
@@ -51,17 +54,58 @@ public class PagePos extends BaseFragment implements OnClickListener {
         vBarcode.addTextChangedListener(new TextWatcher4Enter(vBarcode) {
             @Override
             public void onScanEnter(String str) {
-                //根据条码获取数据
                 System.out.println(str);
+                //根据条码获取数据
+                TaskReadBar task = new TaskReadBar(activity, str) {
+                    @Override
+                    protected void onTaskSuccessAndHaveData(DataTable table, boolean isAsk, String msg, ArrayList<String> list) {
+                        //["fgdcode","fgdname","fyscode","fysname","fccode","fcname","saleprice"]
+                        //补充没有的列
+                        table.addColumn("discount");
+                        table.addColumn("qty");
+                        table.addColumn("amount");
+                        DataRow dr = table.rows.get(0);
+                        dr.set("discount", "1");
+                        dr.set("qty", "1");
+                        dr.set("amount", "1");
+                        if (DataTable.isNull(dtDetail)) {
+                            dtDetail = table;
+                            adapter = new CommonTableAdapter(activity, dtDetail, R.layout.page_pos_i) {
+                                @Override
+                                public void convert(ViewHolder holder, int position, DataRow item) {
+                                    holder.setText(R.id.page_pos_i_xh, position + "");
+                                    holder.setText(R.id.page_pos_i_fgdcode, item.get("fgdcode"));
+                                    holder.setText(R.id.page_pos_i_fgdname, item.get("fgdname"));
+                                    holder.setText(R.id.page_pos_i_fyscode, item.get("fyscode"));
+                                    holder.setText(R.id.page_pos_i_fysname, item.get("fysname"));
+                                    holder.setText(R.id.page_pos_i_fccode, item.get("fccode"));
+                                    holder.setText(R.id.page_pos_i_fcname, item.get("fcname"));
+                                    holder.setText(R.id.page_pos_i_saleprice, item.get("saleprice"));
+                                    holder.setText(R.id.page_pos_i_discount, item.get("discount"));
+                                    holder.setText(R.id.page_pos_i_qty, item.get("qty"));
+                                    holder.setText(R.id.page_pos_i_amount, item.get("amount"));
+                                }
+                            };
+                            vList.setAdapter(adapter);
+                        } else {
+                            dtDetail.addRow(dr);
+                        }
+                        calcDetail();
+                    }
+                };
+                task.execute();
             }
         });
 
         vUser.setText(Config.UserCode);
         vBarcode.requestFocus();
 
-        enumHelper = new EnumHelper(activity);
-        StockCode = enumHelper.getOneCode(LastStockCode);
-        vStock.setText(StockCode);
+        StockCode = enumHelper.getPreferences(LastStockCode);
+        vStock.setText(enumHelper.getPreferences(LastStockName));
+    }
+
+    public void calcDetail() {
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -72,12 +116,11 @@ public class PagePos extends BaseFragment implements OnClickListener {
     //获取仓库列表
     public void GetStockList() {
         TaskGetSTKList taskGetSTKList = new TaskGetSTKList(activity, Config.UserCode) {
+
             @Override
-            public void onTaskSuccess(ArrayList<String> list) {
-                StockList = list;
-                if (!isNull(StockList)) {
-                    ShowStockSelect();
-                }
+            protected void onTaskSuccessAndHaveData(DataTable table, boolean isAsk, String msg, ArrayList<String> list) {
+                StockList = table;
+                ShowStockSelect();
             }
         };
         taskGetSTKList.execute();
@@ -85,18 +128,25 @@ public class PagePos extends BaseFragment implements OnClickListener {
 
     //显示仓库列表
     private void ShowStockSelect() {
-        if (isNull(StockList)) {
+        if (DataTable.isNull(StockList)) {
             GetStockList();
             return;
         }
-        PopupMenu popup = new PopupMenu(activity, StockList) {
+        SelectWithTable select = new SelectWithTable(activity, StockList, "usercode", "username") {
             @Override
-            public void onItemClick(int position) {
-                enumHelper.saveEnum(LastStockCode, 0, StockList.get(position));
-                vStock.setText(StockList.get(position));
+            public void onItemClick(int menuIndex, DataRow dr, String id, String name) {
+                enumHelper.savePreferences(LastStockCode, id);
+                enumHelper.savePreferences(LastStockName, name);
+                StockCode = id;
+                vStock.setText(name);
+            }
+
+            @Override
+            protected void onRefresh() {
+
             }
         };
-        popup.show();
+        select.show();
     }
 
     @Override

@@ -18,8 +18,8 @@
 
             <TextView
                 android:id="@+id/page_pos_stock"
-                android:background="@drawable/input_a"
-                style="@style/input_edit" />
+                style="@style/input_edit"
+                android:background="@drawable/input_a" />
         </LinearLayout>
 
 
@@ -56,61 +56,47 @@
 
         <TextView
             style="@style/textReportHeader"
-            android:text="序号"
-            android:visibility="visible" />
+            android:text="序号" />
 
         <TextView
             style="@style/textReportHeader"
-            android:text="商品编码"
-            android:visibility="visible" />
+            android:text="商品编码" />
 
         <TextView
             style="@style/textReportHeader"
-            android:text="商品名称"
-            android:visibility="visible" />
+            android:text="商品名称" />
 
         <TextView
             style="@style/textReportHeader"
-            android:text="颜色代号"
-            android:visibility="visible" />
-
-        <TextView
-            android:id="@+id/page_report_monitor_list_title_Qty"
-            style="@style/textReportHeader"
-            android:text="颜色名称"
-            android:visibility="visible" />
-
-        <TextView
-            android:id="@+id/page_report_monitor_list_title_QtyRate"
-            style="@style/textReportHeader"
-            android:text="尺码代号"
-            android:visibility="visible" />
-
-        <TextView
-            android:id="@+id/page_report_monitor_list_title_Amount"
-            style="@style/textReportHeader"
-            android:text="尺码"
-            android:visibility="visible" />
+            android:text="颜色代号" />
 
         <TextView
             style="@style/textReportHeader"
-            android:text="数量"
-            android:visibility="visible" />
+            android:text="颜色名称" />
 
         <TextView
             style="@style/textReportHeader"
-            android:text="单价"
-            android:visibility="visible" />
+            android:text="尺码代号" />
 
         <TextView
             style="@style/textReportHeader"
-            android:text="折扣"
-            android:visibility="visible" />
+            android:text="尺码" />
 
         <TextView
             style="@style/textReportHeader"
-            android:text="金额"
-            android:visibility="visible" />
+            android:text="单价" />
+
+        <TextView
+            style="@style/textReportHeader"
+            android:text="折扣" />
+
+        <TextView
+            style="@style/textReportHeader"
+            android:text="数量" />
+
+        <TextView
+            style="@style/textReportHeader"
+            android:text="金额" />
     </LinearLayout>
 
     <ListView

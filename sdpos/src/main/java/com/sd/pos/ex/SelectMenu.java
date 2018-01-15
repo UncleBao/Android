@@ -25,7 +25,7 @@ import java.util.ArrayList;
  * @author yizhe
  * @date 2012-6-5
  */
-public abstract class PopupMenu extends Dialog implements OnItemClickListener {
+public abstract class SelectMenu extends Dialog implements OnItemClickListener {
     Context context;
     private TextView titleView;
     private ListView vList;
@@ -35,7 +35,7 @@ public abstract class PopupMenu extends Dialog implements OnItemClickListener {
     ArrayList<String> list;
     String title;
 
-    public PopupMenu(Context context, String[] arr) {
+    public SelectMenu(Context context, String[] arr) {
         super(context);
         this.context = context;
         list = new ArrayList<String>();
@@ -47,7 +47,7 @@ public abstract class PopupMenu extends Dialog implements OnItemClickListener {
     /**
      * 创建对话框,使用默认标题 R.string.dialog_defaultTitle
      */
-    public PopupMenu(Context context, ArrayList<String> list) {
+    public SelectMenu(Context context, ArrayList<String> list) {
         super(context);
         this.context = context;
         this.list = list;
@@ -56,7 +56,7 @@ public abstract class PopupMenu extends Dialog implements OnItemClickListener {
     /**
      * 创建对话框,使用默认标题 R.string.dialog_defaultTitle
      */
-    public PopupMenu(Context context, String title, ArrayList<String> list) {
+    public SelectMenu(Context context, String title, ArrayList<String> list) {
         super(context);
         this.context = context;
         this.title = title;

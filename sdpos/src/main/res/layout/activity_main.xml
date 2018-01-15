@@ -80,24 +80,18 @@
                 android:textOff="收银"
                 android:textOn="收银" />
 
+
+            <ToggleButton
+                android:id="@+id/main_nav_report"
+                style="@style/main_nav"
+                android:drawableLeft="@drawable/ic_nav_report"
+                android:textOff="销售排行"
+                android:textOn="销售排行" />
+
             <ToggleButton
                 android:id="@+id/main_nav_quick"
                 style="@style/main_nav"
                 android:drawableLeft="@drawable/ic_nav_quick"
-                android:textOff="库存盘点"
-                android:textOn="库存盘点" />
-
-            <ToggleButton
-                android:id="@+id/main_nav_myorder"
-                style="@style/main_nav"
-                android:drawableLeft="@drawable/ic_nav_myorder"
-                android:textOff="商品信息"
-                android:textOn="商品信息" />
-
-            <ToggleButton
-                android:id="@+id/main_nav_need"
-                style="@style/main_nav"
-                android:drawableLeft="@drawable/ic_nav_good"
                 android:textOff="库存盘点"
                 android:textOn="库存盘点" />
 
@@ -109,11 +103,18 @@
                 android:textOn="库存查询" />
 
             <ToggleButton
-                android:id="@+id/main_nav_report"
+                android:id="@+id/main_nav_myorder"
                 style="@style/main_nav"
                 android:drawableLeft="@drawable/ic_nav_report"
-                android:textOff="报表"
-                android:textOn="报表" />
+                android:textOff="商品信息"
+                android:textOn="商品信息" />
+
+            <ToggleButton
+                android:id="@+id/main_nav_need"
+                style="@style/main_nav"
+                android:drawableLeft="@drawable/ic_nav_good"
+                android:textOff="单据中心"
+                android:textOn="单据中心" />
 
             <ToggleButton
                 android:id="@+id/main_nav_collect"

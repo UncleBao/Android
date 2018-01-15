@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="2dp">
+
+    <TextView
+        android:id="@+id/page_pos_i_xh"
+        style="@style/textReport" />
+
+    <TextView
+        android:id="@+id/page_pos_i_fgdcode"
+        style="@style/textReport" />
+
+    <TextView
+        android:id="@+id/page_pos_i_fgdname"
+        style="@style/textReport" />
+
+    <TextView
+        android:id="@+id/page_pos_i_fyscode"
+        style="@style/textReport" />
+
+    <TextView
+        android:id="@+id/page_pos_i_fysname"
+        style="@style/textReport" />
+
+    <TextView
+        android:id="@+id/page_pos_i_fccode"
+        style="@style/textReport" />
+
+    <TextView
+        android:id="@+id/page_pos_i_fcname"
+        style="@style/textReport" />
+
+    <TextView
+        android:id="@+id/page_pos_i_saleprice"
+        style="@style/textReport" />
+
+    <TextView
+        android:id="@+id/page_pos_i_discount"
+        style="@style/textReport" />
+
+    <TextView
+        android:id="@+id/page_pos_i_qty"
+        style="@style/textReport" />
+
+    <TextView
+        android:id="@+id/page_pos_i_amount"
+        style="@style/textReport" />
+
+</LinearLayout>

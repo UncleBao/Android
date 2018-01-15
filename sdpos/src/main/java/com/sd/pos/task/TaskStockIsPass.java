@@ -13,10 +13,6 @@ public abstract class TaskStockIsPass extends PosTaskBase {
     public String UserCode = "";
     public String Password = "";
 
-    public TaskStockIsPass(Activity activity) {
-        super(activity);
-    }
-
     public TaskStockIsPass(Activity activity, String method, String UserCode, String Password) {
         super(activity, method);
         this.UserCode = UserCode;

@@ -6,8 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.sd.pos.table.DataRow;
-import com.sd.pos.table.DataTable;
+import com.yihujiu.util.table.DataRow;
+import com.yihujiu.util.table.DataTable;
 
 import java.util.ArrayList;
 
@@ -104,11 +104,25 @@ public abstract class SQLiteOpenHelperBase extends SQLiteOpenHelper {
     }
 
     /**
-     * 通用执行sql,,多用于事务中,db在这里不会关闭
+     * 执行sql, 返回1表示成功, 返回其他表示执行失败, 返回的内容就是错误提示
      */
-    public static void execSQL(SQLiteDatabase db, String sql) {
-        System.out.println("==execSQL1==" + sql);
-        db.execSQL(sql);
+    public String execSQL(ArrayList<String> sqlList) {
+        SQLiteDatabase db = getWritableDatabase();
+        try {
+            db.beginTransaction();
+            for (String sql : sqlList) {
+                db.execSQL(sql);
+            }
+            db.setTransactionSuccessful();
+            return "1";
+        } catch (Exception ex) {
+            System.out.println(ex);
+            showError("(execSQL2):" + ex.getMessage());
+            return ex.getMessage();
+        } finally {
+            db.endTransaction();
+            db.close();
+        }
     }
 
     /**

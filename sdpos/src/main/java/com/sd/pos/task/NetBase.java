@@ -35,7 +35,7 @@ public class NetBase {
         public final static String IsCut = "IsCut";
         public final static String Msg = "Msg";
         public final static String MsgList = "MsgList";//
-        public final static String List = "list";//
+        public final static String List = "listData";//
         public final static String ListDetail = "listDetail";//
         public final static String Table = "table";//
         public final static String Table0 = "table0";//
