@@ -8,7 +8,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="#00519D"
+        android:background="#cd853f"
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingLeft="16dp"
@@ -89,35 +89,35 @@
                 android:textOn="销售排行" />
 
             <ToggleButton
-                android:id="@+id/main_nav_quick"
+                android:id="@+id/main_nav_check"
                 style="@style/main_nav"
                 android:drawableLeft="@drawable/ic_nav_quick"
                 android:textOff="库存盘点"
                 android:textOn="库存盘点" />
 
             <ToggleButton
-                android:id="@+id/main_nav_nobook"
+                android:id="@+id/main_nav_inv"
                 style="@style/main_nav"
                 android:drawableLeft="@drawable/ic_nav_nobook"
                 android:textOff="库存查询"
                 android:textOn="库存查询" />
 
             <ToggleButton
-                android:id="@+id/main_nav_myorder"
+                android:id="@+id/main_nav_info"
                 style="@style/main_nav"
                 android:drawableLeft="@drawable/ic_nav_report"
                 android:textOff="商品信息"
                 android:textOn="商品信息" />
 
             <ToggleButton
-                android:id="@+id/main_nav_need"
+                android:id="@+id/main_nav_bill"
                 style="@style/main_nav"
                 android:drawableLeft="@drawable/ic_nav_good"
                 android:textOff="单据中心"
                 android:textOn="单据中心" />
 
             <ToggleButton
-                android:id="@+id/main_nav_collect"
+                android:id="@+id/main_nav_set"
                 style="@style/main_nav"
                 android:drawableLeft="@drawable/ic_nav_collect"
                 android:textOff="系统设置"

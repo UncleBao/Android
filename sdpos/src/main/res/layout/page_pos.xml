@@ -106,10 +106,79 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/navy"
+        android:gravity="bottom">
+
+        <TextView
+            style="@style/textReportHeader"
+            android:text="" />
+
+        <TextView
+            style="@style/textReportHeader"
+            android:text="" />
+
+        <TextView
+            style="@style/textReportHeader"
+            android:text="" />
+
+        <TextView
+            style="@style/textReportHeader"
+            android:text="" />
+
+        <TextView
+            style="@style/textReportHeader"
+            android:text="" />
+
+        <TextView
+            style="@style/textReportHeader"
+            android:text="" />
+
+        <TextView
+            style="@style/textReportHeader"
+            android:text="" />
+
+        <TextView
+            style="@style/textReportHeader"
+            android:text="" />
+
+        <TextView
+            style="@style/textReportHeader"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/page_pos_foot_qty"
+            style="@style/textReportHeader"
+            android:text="数量" />
+
+        <TextView
+            android:id="@+id/page_pos_foot_amount"
+            style="@style/textReportHeader"
+            android:text="金额" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="#F2F2F2"
         android:gravity="right"
         android:orientation="horizontal"
         android:padding="6dp">
+
+        <LinearLayout style="@style/input_content">
+
+            <TextView
+                style="@style/input_label"
+                android:text="手工单号" />
+
+            <EditText
+                android:id="@+id/page_pos_ManualBill"
+                style="@style/input_edit_barcode" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_weight="2" />
 
         <Button
             android:id="@+id/page_pos_CreateBill"
@@ -127,7 +196,7 @@
             android:text="挂单" />
 
         <Button
-            android:id="@+id/page_pos_CommitBill"
+            android:id="@+id/page_pos_SubmitBill"
             style="@style/btn_a"
             android:text="过账" />
 

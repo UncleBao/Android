@@ -17,8 +17,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Bind(R.id.main_nav_pos)
     ToggleButton vPos;
+    @Bind(R.id.main_nav_report)
+    ToggleButton vReport;
     @Bind(R.id.main_nav_about)
     ToggleButton vAbout;
+    @Bind(R.id.main_nav_bill)
+    ToggleButton vBill;
+    @Bind(R.id.main_nav_check)
+    ToggleButton vCheck;
+    @Bind(R.id.main_nav_set)
+    ToggleButton vSet;
+    @Bind(R.id.main_nav_info)
+    ToggleButton vInfo;
+    @Bind(R.id.main_nav_inv)
+    ToggleButton vInv;
 
     public static MainActivity instans;
 
@@ -83,6 +95,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 showDetail(6);
                 break;
             case R.id.main_nav_about:
+                showDetail(7);
                 break;
             default:
                 break;
@@ -92,12 +105,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void showDetail(int i) {
         //保存缓存标志,到这里肯定是缓存成功了
         vPos.setChecked(false);
-//        vQuick.setChecked(false);
-//        vMyOrder.setChecked(false);
-//        vNeed.setChecked(false);
-//        vNoBook.setChecked(false);
-//        vCollect.setChecked(false);
-//        vReport.setChecked(false);
+        vBill.setChecked(false);
+        vCheck.setChecked(false);
+        vReport.setChecked(false);
+        vSet.setChecked(false);
+        vInfo.setChecked(false);
+        vInv.setChecked(false);
         vAbout.setChecked(false);
 
         int count = fragmentManager.getBackStackEntryCount();
@@ -131,6 +144,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     PagePos pagePos;
+
     private Fragment getPostPage() {
         if (null == pagePos) {
             pagePos = new PagePos();

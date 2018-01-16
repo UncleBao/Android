@@ -1,15 +1,23 @@
 package com.sd.pos.pages;
 
+import android.provider.ContactsContract;
+import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.sd.pos.BaseFragment;
+import com.sd.pos.MainActivity;
 import com.sd.pos.R;
 import com.sd.pos.comm.Config;
+import com.sd.pos.ex.DialogInputText;
 import com.sd.pos.ex.SelectWithTable;
+import com.sd.pos.task.TaskSaveLsdMST;
+import com.yihujiu.util.Util;
 import com.yihujiu.util.table.DataRow;
 import com.yihujiu.util.table.DataTable;
 import com.sd.pos.task.TaskReadBar;
@@ -18,17 +26,22 @@ import com.yihujiu.util.view.TextWatcher4Enter;
 import com.sd.pos.task.TaskGetSTKList;
 import com.yihujiu.util.view.ViewHolder;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * POS
  */
-public class PagePos extends BaseFragment implements OnClickListener {
+public class PagePos extends BaseFragment implements OnClickListener, AdapterView.OnItemLongClickListener {
 
     TextView vStock;
-    EditText vUser, vBarcode;
+    EditText vUser, vBarcode, vManualBill;
     ListView vList;
     CommonTableAdapter adapter;
+    TextView vQtyALL, vAmountALL;
+    Button vCreate, vGetBill, vSaveBill, vSubmitBill;
 
     DataTable StockList;
     DataTable dtDetail;
@@ -48,52 +61,27 @@ public class PagePos extends BaseFragment implements OnClickListener {
         vStock = (TextView) findViewById(R.id.page_pos_stock);
         vUser = (EditText) findViewById(R.id.page_pos_user);
         vBarcode = (EditText) findViewById(R.id.page_pos_barcode);
+        vManualBill = (EditText) findViewById(R.id.page_pos_ManualBill);
         vList = (ListView) findViewById(R.id.page_pos_list);
+        vQtyALL = (TextView) findViewById(R.id.page_pos_foot_qty);
+        vAmountALL = (TextView) findViewById(R.id.page_pos_foot_amount);
 
+        vCreate = (Button) findViewById(R.id.page_pos_CreateBill);
+        vGetBill = (Button) findViewById(R.id.page_pos_GetBill);
+        vSaveBill = (Button) findViewById(R.id.page_pos_SaveBill);
+        vSubmitBill = (Button) findViewById(R.id.page_pos_SubmitBill);
+
+        vList.setOnItemLongClickListener(this);
         vStock.setOnClickListener(this);
+        vCreate.setOnClickListener(this);
+        vGetBill.setOnClickListener(this);
+        vSaveBill.setOnClickListener(this);
+        vSubmitBill.setOnClickListener(this);
         vBarcode.addTextChangedListener(new TextWatcher4Enter(vBarcode) {
             @Override
             public void onScanEnter(String str) {
                 System.out.println(str);
-                //根据条码获取数据
-                TaskReadBar task = new TaskReadBar(activity, str) {
-                    @Override
-                    protected void onTaskSuccessAndHaveData(DataTable table, boolean isAsk, String msg, ArrayList<String> list) {
-                        //["fgdcode","fgdname","fyscode","fysname","fccode","fcname","saleprice"]
-                        //补充没有的列
-                        table.addColumn("discount");
-                        table.addColumn("qty");
-                        table.addColumn("amount");
-                        DataRow dr = table.rows.get(0);
-                        dr.set("discount", "1");
-                        dr.set("qty", "1");
-                        dr.set("amount", "1");
-                        if (DataTable.isNull(dtDetail)) {
-                            dtDetail = table;
-                            adapter = new CommonTableAdapter(activity, dtDetail, R.layout.page_pos_i) {
-                                @Override
-                                public void convert(ViewHolder holder, int position, DataRow item) {
-                                    holder.setText(R.id.page_pos_i_xh, position + "");
-                                    holder.setText(R.id.page_pos_i_fgdcode, item.get("fgdcode"));
-                                    holder.setText(R.id.page_pos_i_fgdname, item.get("fgdname"));
-                                    holder.setText(R.id.page_pos_i_fyscode, item.get("fyscode"));
-                                    holder.setText(R.id.page_pos_i_fysname, item.get("fysname"));
-                                    holder.setText(R.id.page_pos_i_fccode, item.get("fccode"));
-                                    holder.setText(R.id.page_pos_i_fcname, item.get("fcname"));
-                                    holder.setText(R.id.page_pos_i_saleprice, item.get("saleprice"));
-                                    holder.setText(R.id.page_pos_i_discount, item.get("discount"));
-                                    holder.setText(R.id.page_pos_i_qty, item.get("qty"));
-                                    holder.setText(R.id.page_pos_i_amount, item.get("amount"));
-                                }
-                            };
-                            vList.setAdapter(adapter);
-                        } else {
-                            dtDetail.addRow(dr);
-                        }
-                        calcDetail();
-                    }
-                };
-                task.execute();
+                getDetail(str);
             }
         });
 
@@ -102,15 +90,7 @@ public class PagePos extends BaseFragment implements OnClickListener {
 
         StockCode = enumHelper.getPreferences(LastStockCode);
         vStock.setText(enumHelper.getPreferences(LastStockName));
-    }
-
-    public void calcDetail() {
-        adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
+        vManualBill.setText("LSD" + Util.timeFormat("yyMMddHHmmss", new Date()));
     }
 
     //获取仓库列表
@@ -149,6 +129,96 @@ public class PagePos extends BaseFragment implements OnClickListener {
         select.show();
     }
 
+    private void getDetail(String barcode) {
+        //根据条码获取数据
+        TaskReadBar task = new TaskReadBar(activity, barcode) {
+            @Override
+            protected void onTaskSuccessAndHaveData(DataTable table, boolean isAsk, String msg, ArrayList<String> list) {
+                //["fgdcode","fgdname","fyscode","fysname","fccode","fcname","saleprice"]
+                //补充没有的列
+                table.addColumn("discount");
+                table.addColumn("qty");
+                table.addColumn("amount");
+                table.addColumn("barcode");
+                DataRow dr = table.rows.get(0);
+                dr.set("discount", "1");
+                dr.set("qty", "1");
+                dr.set("amount", "1");
+                dr.set("barcode", barcode);
+                if (DataTable.isNull(dtDetail)) {
+                    dtDetail = table;
+                    adapter = new CommonTableAdapter(activity, dtDetail, R.layout.page_pos_i) {
+                        @Override
+                        public void convert(ViewHolder holder, int position, DataRow item) {
+                            holder.setText(R.id.page_pos_i_xh, (position + 1) + "");
+                            holder.setText(R.id.page_pos_i_fgdcode, item.get("fgdcode"));
+                            holder.setText(R.id.page_pos_i_fgdname, item.get("fgdname"));
+                            holder.setText(R.id.page_pos_i_fyscode, item.get("fyscode"));
+                            holder.setText(R.id.page_pos_i_fysname, item.get("fysname"));
+                            holder.setText(R.id.page_pos_i_fccode, item.get("fccode"));
+                            holder.setText(R.id.page_pos_i_fcname, item.get("fcname"));
+                            holder.setText(R.id.page_pos_i_saleprice, item.get("saleprice"));
+                            holder.setText(R.id.page_pos_i_discount, item.get("discount"));
+                            holder.setText(R.id.page_pos_i_qty, item.get("qty"));
+                            holder.setText(R.id.page_pos_i_amount, item.get("amount"));
+                        }
+                    };
+                    vList.setAdapter(adapter);
+                } else {
+                    dtDetail.addRow(dr);
+                }
+                calcDetail();
+            }
+        };
+        task.execute();
+    }
+
+
+    public void calcDetail() {
+        int qtyALL = 0;
+        double amountALL = 0;
+        if (DataTable.isNull(dtDetail)) {
+        } else {
+            for (DataRow dr : dtDetail.rows) {
+                double price = dr.getDouble("saleprice");
+                double discount = dr.getDouble("discount");
+                int qty = dr.getInt("qty");
+                double amount = price * discount * qty;
+                dr.set("amount", amount + "");
+                qtyALL += qty;
+                amountALL += amount;
+            }
+            adapter.notifyDataSetChanged();
+        }
+        vQtyALL.setText(qtyALL + "");
+        vAmountALL.setText(amountALL + "");
+    }
+
+    private void submitBill() {
+        TaskSaveLsdMST task = new TaskSaveLsdMST(activity, StockCode, Config.UserCode, dtDetail) {
+            @Override
+            public void onTaskSuccess(JSONObject jsonObj) {
+                PagePos.this.activity.showDialogOK("提交成功");
+                newBill();
+            }
+        };
+        task.execute();
+    }
+
+    private void newBill() {
+        dtDetail = null;
+        vList.setAdapter(null);
+        calcDetail();
+        vBarcode.requestFocus();
+    }
+
+    private void saveBill() {
+        if (DataTable.isNull(dtDetail)) {
+            return;
+        }
+
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -156,13 +226,42 @@ public class PagePos extends BaseFragment implements OnClickListener {
                 ShowStockSelect();
                 break;
             case R.id.page_pos_CreateBill:
+                newBill();
                 break;
             case R.id.page_pos_GetBill:
                 break;
             case R.id.page_pos_SaveBill:
+                saveBill();
                 break;
-            case R.id.page_pos_CommitBill:
+            case R.id.page_pos_SubmitBill:
+                submitBill();
                 break;
         }
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        final DataRow dr = dtDetail.rows.get(position);
+        String discount = dr.get("discount");
+        DialogInputText dialog = new DialogInputText(activity, "修改折扣", discount) {
+            @Override
+            protected void onBtnOKClick(String val) {
+                double tmp = Util.toDouble(val);
+                if (tmp > 0 && tmp <= 1) {
+                    dr.set("discount", tmp + "");
+                    calcDetail();
+                } else {
+                    toast("折扣应该在0和1之间!");
+                }
+            }
+
+            @Override
+            protected void ini() {
+                super.ini();
+                vEdit.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            }
+        };
+        dialog.show();
+        return true;
     }
 }

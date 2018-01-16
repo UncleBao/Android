@@ -20,6 +20,17 @@
     <color name="bg_title3">#a3a3a3</color>
     <color name="bg_report">#dcdcdc</color>
 
+    <color name="bg_page3">#4B5E76</color>
+
+    <!-- 按钮容器底色景 -->
+    <color name="bg_table_title">#606060</color>
+    <!-- 扫描条码底色 ,#EEEEEE -->
+    <color name="bg_info">#cccccc</color>
+    <!-- 标题的背景颜色 -->
+    <color name="bg_dialog_title">#606060</color>
+    <!-- 放按钮的地方的颜色 -->
+    <color name="bg_dialog_btn">#C6C3C6</color>
+
     <!-- 文本,黑 -->
     <color name="text">#000000</color>
     <!-- 文本,白 -->
@@ -42,15 +53,6 @@
     <color name="spliter">#dcdcdc</color>
     <!-- enabled -->
     <color name="text_enabled">#cccccc</color>
-
-    <!-- 按钮容器底色景 -->
-    <color name="bg_table_title">#606060</color>
-    <!-- 扫描条码底色 ,#EEEEEE -->
-    <color name="bg_info">#cccccc</color>
-    <!-- 标题的背景颜色 -->
-    <color name="bg_dialog_title">#606060</color>
-    <!-- 放按钮的地方的颜色 -->
-    <color name="bg_dialog_btn">#C6C3C6</color>
 
     <!-- list -->
     <color name="list_bg">#ffffff</color>
