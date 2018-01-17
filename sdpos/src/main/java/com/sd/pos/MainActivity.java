@@ -6,8 +6,10 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.sd.pos.comm.Config;
 import com.sd.pos.pages.PagePos;
 
 import butterknife.Bind;
@@ -32,6 +34,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.main_nav_inv)
     ToggleButton vInv;
 
+    @Bind(R.id.main_top_info2)
+    TextView vInfo2;
+
+
     public static MainActivity instans;
 
     BaseFragment currentFragment;
@@ -42,6 +48,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         instans = this;
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        vInfo2.setText("当前操作员:" + Config.UserCode);
         showDetail(0);
     }
 
@@ -76,19 +83,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.main_nav_pos:
                 showDetail(0);
                 break;
-            case R.id.main_nav_quick:
+            case R.id.main_nav_info:
                 showDetail(1);
                 break;
-            case R.id.main_nav_myorder:
+            case R.id.main_nav_bill:
                 showDetail(2);
                 break;
-            case R.id.main_nav_need:
+            case R.id.main_nav_inv:
                 showDetail(3);
                 break;
-            case R.id.main_nav_nobook:
+            case R.id.main_nav_check:
                 showDetail(4);
                 break;
-            case R.id.main_nav_collect:
+            case R.id.main_nav_set:
                 showDetail(5);
                 break;
             case R.id.main_nav_report:

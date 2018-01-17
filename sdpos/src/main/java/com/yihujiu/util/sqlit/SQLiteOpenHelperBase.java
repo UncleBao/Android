@@ -89,16 +89,13 @@ public abstract class SQLiteOpenHelperBase extends SQLiteOpenHelper {
         System.out.println("==execSQL2==" + sql);
         SQLiteDatabase db = getWritableDatabase();
         try {
-            db.beginTransaction();
             db.execSQL(sql, param);
-            db.setTransactionSuccessful();
             return "1";
         } catch (Exception ex) {
             System.out.println(ex);
             showError("(execSQL2):" + ex.getMessage());
             return ex.getMessage();
         } finally {
-            db.endTransaction();
             db.close();
         }
     }

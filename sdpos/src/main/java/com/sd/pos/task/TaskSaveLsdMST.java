@@ -37,8 +37,8 @@ public abstract class TaskSaveLsdMST extends PosTaskBase {
         }
         try {
             JSONObject params = NetBase.createBasParam();
-            params.put("StockCode", StockCode);
-            params.put("UserCode", UserCode);
+            params.put("stockcode", StockCode);
+            params.put("usercode", UserCode);
             params.put("listData", getJsonArray());
             return params.toString();
         } catch (JSONException ex) {
@@ -57,7 +57,7 @@ public abstract class TaskSaveLsdMST extends PosTaskBase {
         rowHeader.put("saleprice");
         rowHeader.put("discount");
         rowHeader.put("qty");
-        rowHeader.put("Aoumt");
+        rowHeader.put("amount");
         arrObj.put(rowHeader);
         for (DataRow dr : dtDetail.rows) {
             JSONArray row = new JSONArray();
@@ -65,9 +65,9 @@ public abstract class TaskSaveLsdMST extends PosTaskBase {
             row.put(dr.get("fyscode"));
             row.put(dr.get("fccode"));
             row.put(dr.get("saleprice"));
-            row.put(dr.get("discount"));
+            row.put(dr.getDouble("discount") * 100 + ""); //折扣乘以100后再上传
             row.put(dr.get("qty"));
-            row.put(dr.get("Aoumt"));
+            row.put(dr.get("amount"));
             arrObj.put(row);
         }
         return arrObj;

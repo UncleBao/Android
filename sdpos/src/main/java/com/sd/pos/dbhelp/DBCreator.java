@@ -21,6 +21,7 @@ class DBCreator implements IDBCreator {
 
             //业务表格
             createBillMaster(db);
+            createBillDetail(db);
 
             System.out.println("CreateTableOver");
 
@@ -84,7 +85,7 @@ class DBCreator implements IDBCreator {
         sql.append("CREATE TABLE IF NOT EXISTS BillMaster (");
         sql.append(" id INTEGER PRIMARY KEY AUTOINCREMENT,"); // 这一列不能修改
         sql.append(" Company TEXT COLLATE NOCASE,");
-        sql.append(" ManualBill TEXT COLLATE NOCASE,"); //手工单号
+        sql.append(" ManualBillNo TEXT COLLATE NOCASE,"); //手工单号
         sql.append(" BillNo TEXT COLLATE NOCASE,");
         sql.append(" BillType TEXT COLLATE NOCASE,"); //单据类型
         sql.append(" BillDate TEXT COLLATE NOCASE,");
@@ -115,7 +116,7 @@ class DBCreator implements IDBCreator {
         StringBuilder sql = new StringBuilder();
         sql.append("CREATE TABLE IF NOT EXISTS BillDetail (");
         sql.append(" id INTEGER PRIMARY KEY AUTOINCREMENT,"); // 这一列不能修改
-        sql.append(" ManualBill TEXT COLLATE NOCASE,"); //手工单号 //BillMaster表主键
+        sql.append(" ManualBillNo TEXT COLLATE NOCASE,"); //手工单号 //BillMaster表主键
         sql.append(" fgdcode TEXT COLLATE NOCASE,");//货品
         sql.append(" fgdname TEXT COLLATE NOCASE,");
         sql.append(" fyscode TEXT COLLATE NOCASE,");//颜色

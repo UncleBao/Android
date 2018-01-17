@@ -18,12 +18,14 @@ import java.util.ArrayList;
 
 public abstract class TaskReadBar extends PosTaskBase {
     public String barcode = "";
+    public String stockcode = "";
 
     public ArrayList<String> list = new ArrayList<String>();
 
-    public TaskReadBar(Activity activity, String barcode) {
+    public TaskReadBar(Activity activity, String barcode, String stockcode) {
         super(activity, "SP_Readbar");
         this.barcode = barcode;
+        this.stockcode = stockcode;
     }
 
     @Override
@@ -31,6 +33,7 @@ public abstract class TaskReadBar extends PosTaskBase {
         try {
             JSONObject params = NetBase.createBasParam();
             params.put("barcode", barcode);
+            params.put("stockcode", stockcode);
             return params.toString();
         } catch (JSONException ex) {
             toast("初始化参数错误:" + ex.getMessage());

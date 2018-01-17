@@ -11,7 +11,7 @@ import com.sd.pos.ex.DialogOK;
  */
 public class DBHelper extends SQLiteOpenHelperBase {
 
-    static int DBVersion = 100;
+    static int DBVersion = 101;
 
     public DBHelper(Context context) {
         super(context, DBVersion);

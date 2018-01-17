@@ -1,6 +1,5 @@
 package com.sd.pos.pages;
 
-import android.provider.ContactsContract;
 import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,9 +10,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.sd.pos.BaseFragment;
-import com.sd.pos.MainActivity;
 import com.sd.pos.R;
 import com.sd.pos.comm.Config;
+import com.sd.pos.dbhelp.BillHelper;
 import com.sd.pos.ex.DialogInputText;
 import com.sd.pos.ex.SelectWithTable;
 import com.sd.pos.task.TaskSaveLsdMST;
@@ -36,8 +35,8 @@ import java.util.Date;
  */
 public class PagePos extends BaseFragment implements OnClickListener, AdapterView.OnItemLongClickListener {
 
-    TextView vStock;
-    EditText vUser, vBarcode, vManualBill;
+    TextView vStockName;
+    EditText vUserCode, vBarcode, vManualBillNo;
     ListView vList;
     CommonTableAdapter adapter;
     TextView vQtyALL, vAmountALL;
@@ -51,6 +50,8 @@ public class PagePos extends BaseFragment implements OnClickListener, AdapterVie
     final String LastStockCode = "LastStockCode";
     final String LastStockName = "LastStockName";
 
+    BillHelper billHelper;
+
     @Override
     protected int getLayout() {
         return R.layout.page_pos;
@@ -58,10 +59,10 @@ public class PagePos extends BaseFragment implements OnClickListener, AdapterVie
 
     @Override
     protected void ini() {
-        vStock = (TextView) findViewById(R.id.page_pos_stock);
-        vUser = (EditText) findViewById(R.id.page_pos_user);
+        vStockName = (TextView) findViewById(R.id.page_pos_stock);
+        vUserCode = (EditText) findViewById(R.id.page_pos_user);
         vBarcode = (EditText) findViewById(R.id.page_pos_barcode);
-        vManualBill = (EditText) findViewById(R.id.page_pos_ManualBill);
+        vManualBillNo = (EditText) findViewById(R.id.page_pos_ManualBill);
         vList = (ListView) findViewById(R.id.page_pos_list);
         vQtyALL = (TextView) findViewById(R.id.page_pos_foot_qty);
         vAmountALL = (TextView) findViewById(R.id.page_pos_foot_amount);
@@ -72,7 +73,7 @@ public class PagePos extends BaseFragment implements OnClickListener, AdapterVie
         vSubmitBill = (Button) findViewById(R.id.page_pos_SubmitBill);
 
         vList.setOnItemLongClickListener(this);
-        vStock.setOnClickListener(this);
+        vStockName.setOnClickListener(this);
         vCreate.setOnClickListener(this);
         vGetBill.setOnClickListener(this);
         vSaveBill.setOnClickListener(this);
@@ -85,31 +86,34 @@ public class PagePos extends BaseFragment implements OnClickListener, AdapterVie
             }
         });
 
-        vUser.setText(Config.UserCode);
+        vUserCode.setText(Config.UserCode);
         vBarcode.requestFocus();
 
         StockCode = enumHelper.getPreferences(LastStockCode);
-        vStock.setText(enumHelper.getPreferences(LastStockName));
-        vManualBill.setText("LSD" + Util.timeFormat("yyMMddHHmmss", new Date()));
+        vStockName.setText(enumHelper.getPreferences(LastStockName));
+
+        billHelper = new BillHelper(activity);
+
+        newBill();
     }
 
     //获取仓库列表
-    public void GetStockList() {
-        TaskGetSTKList taskGetSTKList = new TaskGetSTKList(activity, Config.UserCode) {
+    public void getStockList() {
+        TaskGetSTKList taskGetSTKList = new TaskGetSTKList(activity, getStr(vUserCode)) {
 
             @Override
             protected void onTaskSuccessAndHaveData(DataTable table, boolean isAsk, String msg, ArrayList<String> list) {
                 StockList = table;
-                ShowStockSelect();
+                showStockSelect();
             }
         };
         taskGetSTKList.execute();
     }
 
     //显示仓库列表
-    private void ShowStockSelect() {
+    private void showStockSelect() {
         if (DataTable.isNull(StockList)) {
-            GetStockList();
+            getStockList();
             return;
         }
         SelectWithTable select = new SelectWithTable(activity, StockList, "usercode", "username") {
@@ -118,7 +122,7 @@ public class PagePos extends BaseFragment implements OnClickListener, AdapterVie
                 enumHelper.savePreferences(LastStockCode, id);
                 enumHelper.savePreferences(LastStockName, name);
                 StockCode = id;
-                vStock.setText(name);
+                vStockName.setText(name);
             }
 
             @Override
@@ -131,7 +135,7 @@ public class PagePos extends BaseFragment implements OnClickListener, AdapterVie
 
     private void getDetail(String barcode) {
         //根据条码获取数据
-        TaskReadBar task = new TaskReadBar(activity, barcode) {
+        TaskReadBar task = new TaskReadBar(activity, barcode, StockCode) {
             @Override
             protected void onTaskSuccessAndHaveData(DataTable table, boolean isAsk, String msg, ArrayList<String> list) {
                 //["fgdcode","fgdname","fyscode","fysname","fccode","fcname","saleprice"]
@@ -147,23 +151,7 @@ public class PagePos extends BaseFragment implements OnClickListener, AdapterVie
                 dr.set("barcode", barcode);
                 if (DataTable.isNull(dtDetail)) {
                     dtDetail = table;
-                    adapter = new CommonTableAdapter(activity, dtDetail, R.layout.page_pos_i) {
-                        @Override
-                        public void convert(ViewHolder holder, int position, DataRow item) {
-                            holder.setText(R.id.page_pos_i_xh, (position + 1) + "");
-                            holder.setText(R.id.page_pos_i_fgdcode, item.get("fgdcode"));
-                            holder.setText(R.id.page_pos_i_fgdname, item.get("fgdname"));
-                            holder.setText(R.id.page_pos_i_fyscode, item.get("fyscode"));
-                            holder.setText(R.id.page_pos_i_fysname, item.get("fysname"));
-                            holder.setText(R.id.page_pos_i_fccode, item.get("fccode"));
-                            holder.setText(R.id.page_pos_i_fcname, item.get("fcname"));
-                            holder.setText(R.id.page_pos_i_saleprice, item.get("saleprice"));
-                            holder.setText(R.id.page_pos_i_discount, item.get("discount"));
-                            holder.setText(R.id.page_pos_i_qty, item.get("qty"));
-                            holder.setText(R.id.page_pos_i_amount, item.get("amount"));
-                        }
-                    };
-                    vList.setAdapter(adapter);
+                    reBuildListWithDetail();
                 } else {
                     dtDetail.addRow(dr);
                 }
@@ -173,6 +161,26 @@ public class PagePos extends BaseFragment implements OnClickListener, AdapterVie
         task.execute();
     }
 
+    private void reBuildListWithDetail() {
+        adapter = new CommonTableAdapter(activity, dtDetail, R.layout.page_pos_i) {
+            @Override
+            public void convert(ViewHolder holder, int position, DataRow item) {
+                holder.setText(R.id.page_pos_i_xh, (position + 1) + "");
+                holder.setText(R.id.page_pos_i_fgdcode, item.get("fgdcode"));
+                holder.setText(R.id.page_pos_i_fgdname, item.get("fgdname"));
+                holder.setText(R.id.page_pos_i_fyscode, item.get("fyscode"));
+                holder.setText(R.id.page_pos_i_fysname, item.get("fysname"));
+                holder.setText(R.id.page_pos_i_fccode, item.get("fccode"));
+                holder.setText(R.id.page_pos_i_fcname, item.get("fcname"));
+                holder.setText(R.id.page_pos_i_saleprice, item.get("saleprice"));
+                holder.setText(R.id.page_pos_i_discount, item.get("discount"));
+                holder.setText(R.id.page_pos_i_qty, item.get("qty"));
+                holder.setText(R.id.page_pos_i_amount, item.get("amount"));
+            }
+        };
+        vList.setAdapter(adapter);
+        calcDetail();
+    }
 
     public void calcDetail() {
         int qtyALL = 0;
@@ -191,11 +199,11 @@ public class PagePos extends BaseFragment implements OnClickListener, AdapterVie
             adapter.notifyDataSetChanged();
         }
         vQtyALL.setText(qtyALL + "");
-        vAmountALL.setText(amountALL + "");
+        vAmountALL.setText(Util.round(amountALL, 2) + "");
     }
 
     private void submitBill() {
-        TaskSaveLsdMST task = new TaskSaveLsdMST(activity, StockCode, Config.UserCode, dtDetail) {
+        TaskSaveLsdMST task = new TaskSaveLsdMST(activity, StockCode, getStr(vUserCode), dtDetail) {
             @Override
             public void onTaskSuccess(JSONObject jsonObj) {
                 PagePos.this.activity.showDialogOK("提交成功");
@@ -205,30 +213,81 @@ public class PagePos extends BaseFragment implements OnClickListener, AdapterVie
         task.execute();
     }
 
+    //初始化单据信息
     private void newBill() {
+        String ManualBillNo = getStr(vManualBillNo);
+        if (!isNull(ManualBillNo)) {
+            billHelper.delBillDetail(ManualBillNo);
+        }
         dtDetail = null;
         vList.setAdapter(null);
         calcDetail();
+        vBarcode.setText("");
         vBarcode.requestFocus();
+        vManualBillNo.setText("LSD" + Util.timeFormat("yyMMddHHmmss", new Date()));
     }
 
     private void saveBill() {
         if (DataTable.isNull(dtDetail)) {
             return;
         }
+        String ManualBillNo = getStr(vManualBillNo);
+        if (isNull(ManualBillNo)) {
+            toast("手工单号不能为空!");
+            return;
+        }
+        if (billHelper.saveBill(ManualBillNo, getStr(vUserCode), StockCode, getStr(vStockName), dtDetail)) {
+            toast("挂单成功!");
+            newBill();
+        } else {
+            toast("挂单失败!");
+        }
+    }
 
+    private void getBill() {
+        DataTable dt = billHelper.getBill4Select();
+        System.out.println(dt.rows.size());
+        SelectWithTable select = new SelectWithTable(activity, dt, "ManualBillNo", "ManualBillNo") {
+            @Override
+            public void onItemClick(int menuIndex, DataRow dr, String id, String name) {
+                resumeWithManualBillNo(id);
+            }
+
+            @Override
+            protected void onRefresh() {
+
+            }
+        };
+        select.show();
+    }
+
+    //跟进手工单号从数据库加载订单
+    private void resumeWithManualBillNo(String ManualBillNo) {
+        DataRow master = billHelper.getBillMaster(ManualBillNo);
+        if (null == master) {
+            return;
+        }
+        newBill();
+        vUserCode.setText(master.get("UserCode"));
+        StockCode = master.get("StockCode");
+        vStockName.setText(master.get("StockName"));
+        vManualBillNo.setText(master.get("ManualBillNo"));
+
+        dtDetail = billHelper.getBillDetail(ManualBillNo);
+        reBuildListWithDetail();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.page_pos_stock:
-                ShowStockSelect();
+                showStockSelect();
                 break;
             case R.id.page_pos_CreateBill:
                 newBill();
                 break;
             case R.id.page_pos_GetBill:
+                getBill();
                 break;
             case R.id.page_pos_SaveBill:
                 saveBill();
