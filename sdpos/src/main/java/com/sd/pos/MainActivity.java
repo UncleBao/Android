@@ -143,6 +143,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case 7:
                 vAbout.setChecked(true);
+                gotoActivity(AboutActivity.class);
                 //replaceFragment(getFrReport());
                 break;
             default:

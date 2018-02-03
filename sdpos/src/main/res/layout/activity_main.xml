@@ -105,7 +105,7 @@
             <ToggleButton
                 android:id="@+id/main_nav_info"
                 style="@style/main_nav"
-                android:drawableLeft="@drawable/ic_nav_report"
+                android:drawableLeft="@drawable/ic_nav_ginfo"
                 android:textOff="商品信息"
                 android:textOn="商品信息" />
 

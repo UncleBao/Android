@@ -4,6 +4,8 @@
 
     <!-- 访问网络 -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 摄像头 -->
+    <uses-permission android:name="android.permission.CAMERA" />
 
 
     <application
@@ -13,7 +15,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,9 +25,26 @@
         </activity>
 
         <activity
+            android:name=".MainActivity"
+            android:screenOrientation="landscape" />
+
+        <activity
             android:name=".LoginSetActivity"
             android:screenOrientation="landscape" />
 
+        <activity
+            android:name=".camerascan.CaptureActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="landscape"
+            android:stateNotNeeded="true"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <activity
+            android:name=".AboutActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar" />
 
     </application>
 

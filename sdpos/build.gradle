@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "27.0.3"
     useLibrary 'org.apache.http.legacy'
 
     aaptOptions.cruncherEnabled = false
@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.sd.pos"
-        minSdkVersion 16
+        minSdkVersion 15
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"

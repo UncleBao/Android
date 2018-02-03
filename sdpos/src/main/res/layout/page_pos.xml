@@ -13,20 +13,10 @@
         <LinearLayout style="@style/input_content">
 
             <TextView
+                android:id="@+id/page_pos_UserLabel"
                 style="@style/input_label"
-                android:text="仓库" />
-
-            <TextView
-                android:id="@+id/page_pos_stock"
-                style="@style/input_edit"
-                android:background="@drawable/input_a" />
-        </LinearLayout>
-
-
-        <LinearLayout style="@style/input_content">
-
-            <TextView
-                style="@style/input_label"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:text="经手人" />
 
             <EditText
@@ -39,11 +29,30 @@
 
             <TextView
                 style="@style/input_label"
+                android:text="仓库" />
+
+            <TextView
+                android:id="@+id/page_pos_stock"
+                style="@style/input_edit"
+                android:background="@drawable/input_a" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/input_content">
+
+            <TextView
+                style="@style/input_label"
                 android:text="条码" />
 
             <EditText
                 android:id="@+id/page_pos_barcode"
                 style="@style/input_edit_barcode" />
+
+            <ImageButton
+                android:id="@+id/page_pos_scan"
+                style="@style/btn_null"
+                android:padding="8dp"
+                android:src="@drawable/ic_scan" />
+
         </LinearLayout>
 
     </LinearLayout>
@@ -168,19 +177,19 @@
 
             <TextView
                 style="@style/input_label"
-                android:minWidth="100dp"
-                android:text="手工单号" />
+                android:layout_weight="1"
+                android:text="手工单" />
 
             <EditText
                 android:id="@+id/page_pos_ManualBill"
                 style="@style/input_edit_barcode"
-                android:minWidth="100dp" />
+                android:layout_weight="2" />
         </LinearLayout>
 
         <TextView
             android:layout_width="10dp"
             android:layout_height="10dp"
-            android:layout_weight="2" />
+            android:layout_weight="1" />
 
         <Button
             android:id="@+id/page_pos_CreateBill"

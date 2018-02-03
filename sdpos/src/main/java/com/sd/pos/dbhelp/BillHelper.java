@@ -76,11 +76,10 @@ public class BillHelper extends DBHelper {
 
     //取单
     public DataTable getBillDetail(String ManualBillNo) {
-        DataTable dt = getTableBySql("Select * From BillDetail Where ManualBillNo = ?", new String[]{ManualBillNo});
-        if (DataTable.isNull(dt)) {
-            return null;
+        if (Util.isNull(ManualBillNo)) {
+            return getTableBySql("Select fgdcode,fgdname,fyscode,fysname,fccode,fcname,saleprice,discount,qty,amount,barcode From BillDetail Where 1=2 ", null);
         } else {
-            return dt;
+            return getTableBySql("Select fgdcode,fgdname,fyscode,fysname,fccode,fcname,saleprice,discount,qty,amount,barcode From BillDetail Where ManualBillNo = ?", new String[]{ManualBillNo});
         }
     }
 

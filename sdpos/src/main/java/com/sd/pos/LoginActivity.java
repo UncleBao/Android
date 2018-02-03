@@ -35,7 +35,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void init() {
-        Config.URL = SharedPre.get(this, SharedPre.Str.ServiceURL);
+        String tmp = SharedPre.get(this, SharedPre.Str.ServiceURL);
+        if (!isNull(tmp)) {
+            Config.URL = tmp;
+        }
         Config.UserCode = SharedPre.get(this, SharedPre.Str.UserCode);
         vUserCode.setText(Config.UserCode);
     }

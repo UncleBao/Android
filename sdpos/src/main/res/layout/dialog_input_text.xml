@@ -28,7 +28,7 @@
 
     <EditText
         android:id="@+id/hk_dialog_input_edit"
-        style="@style/input_edit"
+        style="@style/input_edit_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="3dp"

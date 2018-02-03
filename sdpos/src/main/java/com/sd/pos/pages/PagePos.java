@@ -1,19 +1,23 @@
 package com.sd.pos.pages;
 
-import android.text.InputType;
+import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.sd.pos.camerascan.CaptureActivity;
 import com.sd.pos.BaseFragment;
 import com.sd.pos.R;
 import com.sd.pos.comm.Config;
 import com.sd.pos.dbhelp.BillHelper;
 import com.sd.pos.ex.DialogInputText;
+import com.sd.pos.ex.SelectMenu;
 import com.sd.pos.ex.SelectWithTable;
 import com.sd.pos.task.TaskSaveLsdMST;
 import com.yihujiu.util.Util;
@@ -35,12 +39,14 @@ import java.util.Date;
  */
 public class PagePos extends BaseFragment implements OnClickListener, AdapterView.OnItemLongClickListener {
 
+    TextView vUserLabel;
     TextView vStockName;
     EditText vUserCode, vBarcode, vManualBillNo;
     ListView vList;
     CommonTableAdapter adapter;
     TextView vQtyALL, vAmountALL;
     Button vCreate, vGetBill, vSaveBill, vSubmitBill;
+    ImageButton vScan;
 
     DataTable StockList;
     DataTable dtDetail;
@@ -49,6 +55,7 @@ public class PagePos extends BaseFragment implements OnClickListener, AdapterVie
 
     final String LastStockCode = "LastStockCode";
     final String LastStockName = "LastStockName";
+    final int REQUEST_SCAN = 0;
 
     BillHelper billHelper;
 
@@ -59,6 +66,7 @@ public class PagePos extends BaseFragment implements OnClickListener, AdapterVie
 
     @Override
     protected void ini() {
+        vUserLabel = (TextView) findViewById(R.id.page_pos_UserLabel);
         vStockName = (TextView) findViewById(R.id.page_pos_stock);
         vUserCode = (EditText) findViewById(R.id.page_pos_user);
         vBarcode = (EditText) findViewById(R.id.page_pos_barcode);
@@ -67,6 +75,7 @@ public class PagePos extends BaseFragment implements OnClickListener, AdapterVie
         vQtyALL = (TextView) findViewById(R.id.page_pos_foot_qty);
         vAmountALL = (TextView) findViewById(R.id.page_pos_foot_amount);
 
+        vScan = (ImageButton) findViewById(R.id.page_pos_scan);
         vCreate = (Button) findViewById(R.id.page_pos_CreateBill);
         vGetBill = (Button) findViewById(R.id.page_pos_GetBill);
         vSaveBill = (Button) findViewById(R.id.page_pos_SaveBill);
@@ -74,6 +83,7 @@ public class PagePos extends BaseFragment implements OnClickListener, AdapterVie
 
         vList.setOnItemLongClickListener(this);
         vStockName.setOnClickListener(this);
+        vScan.setOnClickListener(this);
         vCreate.setOnClickListener(this);
         vGetBill.setOnClickListener(this);
         vSaveBill.setOnClickListener(this);
@@ -95,6 +105,7 @@ public class PagePos extends BaseFragment implements OnClickListener, AdapterVie
         billHelper = new BillHelper(activity);
 
         newBill();
+        vUserLabel.requestFocus();
     }
 
     //获取仓库列表
@@ -147,7 +158,7 @@ public class PagePos extends BaseFragment implements OnClickListener, AdapterVie
                 DataRow dr = table.rows.get(0);
                 dr.set("discount", "1");
                 dr.set("qty", "1");
-                dr.set("amount", "1");
+                dr.set("amount", "0");
                 dr.set("barcode", barcode);
                 if (DataTable.isNull(dtDetail)) {
                     dtDetail = table;
@@ -188,10 +199,16 @@ public class PagePos extends BaseFragment implements OnClickListener, AdapterVie
         if (DataTable.isNull(dtDetail)) {
         } else {
             for (DataRow dr : dtDetail.rows) {
+                double amount = dr.getDouble("amount");
+                if (0 != amount) {
+                    continue;
+                }
                 double price = dr.getDouble("saleprice");
+
                 double discount = dr.getDouble("discount");
                 int qty = dr.getInt("qty");
-                double amount = price * discount * qty;
+                amount = price * discount * qty;
+                amount = Util.round(amount, 2);
                 dr.set("amount", amount + "");
                 qtyALL += qty;
                 amountALL += amount;
@@ -224,7 +241,7 @@ public class PagePos extends BaseFragment implements OnClickListener, AdapterVie
         calcDetail();
         vBarcode.setText("");
         vBarcode.requestFocus();
-        vManualBillNo.setText("LSD" + Util.timeFormat("yyMMddHHmmss", new Date()));
+        vManualBillNo.setText("L" + Util.timeFormat("yyMMddHHmmss", new Date()));
     }
 
     private void saveBill() {
@@ -277,11 +294,36 @@ public class PagePos extends BaseFragment implements OnClickListener, AdapterVie
         reBuildListWithDetail();
     }
 
+    public void doScan() {
+        Intent serverIntent = new Intent(activity, CaptureActivity.class);
+        startActivityForResult(serverIntent, REQUEST_SCAN);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_SCAN) {
+            if (resultCode == Activity.RESULT_OK) {
+                String result = data.getExtras().getString(CaptureActivity.Result_Key);
+                if (isNull(result)) {
+                    toast("没有扫描到结果");
+                    return;
+                }
+                // 格式不对,做查询处理
+                result = result + "\n";
+                vBarcode.setText(result);
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.page_pos_stock:
                 showStockSelect();
+                break;
+            case R.id.page_pos_scan:
+                doScan();
                 break;
             case R.id.page_pos_CreateBill:
                 newBill();
@@ -301,6 +343,47 @@ public class PagePos extends BaseFragment implements OnClickListener, AdapterVie
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
         final DataRow dr = dtDetail.rows.get(position);
+
+        SelectMenu option = new SelectMenu(activity, new String[]{"删除", "修改折扣", "修改金额"}) {
+            @Override
+            public void onItemClick(int position) {
+                switch (position) {
+                    case 0:
+                        doDelete(dr);
+                        break;
+                    case 1:
+                        doEditDiscount(dr);
+                        break;
+                    case 2:
+                        doEditAmount(dr);
+                        break;
+                }
+            }
+        };
+        option.show();
+        return true;
+    }
+
+    private void doEditAmount(final DataRow dr) {
+        String amount = dr.get("amount");
+        DialogInputText dialog = new DialogInputText(activity, "修改金额", amount) {
+            @Override
+            protected void onBtnOKClick(String val) {
+                double tmp = Util.toDouble(val);
+                dr.set("amount", tmp + "");
+                calcDetail();
+            }
+        };
+        dialog.show();
+
+    }
+
+    private void doDelete(final DataRow dr) {
+        dtDetail.rows.remove(dr);
+        calcDetail();
+    }
+
+    private void doEditDiscount(final DataRow dr) {
         String discount = dr.get("discount");
         DialogInputText dialog = new DialogInputText(activity, "修改折扣", discount) {
             @Override
@@ -308,6 +391,7 @@ public class PagePos extends BaseFragment implements OnClickListener, AdapterVie
                 double tmp = Util.toDouble(val);
                 if (tmp > 0 && tmp <= 1) {
                     dr.set("discount", tmp + "");
+                    dr.set("amount", "0");
                     calcDetail();
                 } else {
                     toast("折扣应该在0和1之间!");
@@ -317,10 +401,9 @@ public class PagePos extends BaseFragment implements OnClickListener, AdapterVie
             @Override
             protected void ini() {
                 super.ini();
-                vEdit.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                //vEdit.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
             }
         };
         dialog.show();
-        return true;
     }
 }

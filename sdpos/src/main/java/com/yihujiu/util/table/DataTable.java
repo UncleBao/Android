@@ -14,7 +14,7 @@ public class DataTable implements Serializable {
      * 列:构建Table的时候会初始化,且不能外部修改,不会为null,可以放心使用<br>
      * 继承自ArrayList<String>
      */
-    protected final DataColumn columns; // 列,
+    public final DataColumn columns; // 列,
     /**
      * 行:构建Table的时候会初始化,且不能外部修改,不会为null,可以放心使用<br>
      * 继承自ArrayList<DataRow>,DataRow继承自ArrayList<String>
@@ -129,6 +129,9 @@ public class DataTable implements Serializable {
      * @param defaultValue 默认值
      */
     public void addColumn(String colName, String defaultValue) {
+        if(this.columns.contains(colName)){
+            return;
+        }
         if (this.columns.add(colName)) {
             for (DataRow dr : this.rows) {
                 dr.add(defaultValue);

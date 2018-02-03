@@ -2,7 +2,7 @@
 <resources>
 
     <!-- 专用 -->
-    <color name="bt_main_nav_">#3D3E3D</color>
+    <color name="bt_main_nav_">#E3E3E3</color>
     <color name="bt_main_nav_on">#2BA9D7</color>
     <color name="bt_toggle2_">#00000000</color>
     <color name="bt_toggle2_on">#3D3E3D</color>

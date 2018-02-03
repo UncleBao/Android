@@ -41,8 +41,6 @@ public abstract class SelectWithTable extends Dialog implements OnItemClickListe
     protected DataTable table;
     private String idColumn, nameColumn;
 
-    protected boolean isVisibility = true;
-
     String title;
     protected boolean isShowRefreshButton = false;
 
@@ -75,7 +73,7 @@ public abstract class SelectWithTable extends Dialog implements OnItemClickListe
         vList.setOnItemClickListener(this);
 
 //        vClear.setVisibility(View.VISIBLE);
-        setVisibility4vClear();
+        setVisibility4Clear();
         if (isShowRefreshButton) {
             vRefresh.setVisibility(View.VISIBLE);
         }
@@ -152,12 +150,8 @@ public abstract class SelectWithTable extends Dialog implements OnItemClickListe
     }
 
     //设置清除按钮的可见度,因为在一些情景下的对话框清除按钮不需要用到
-    protected void setVisibility4vClear() {
-        if (isVisibility) {
-            vClear.setVisibility(View.VISIBLE);
-        } else {
-            vClear.setVisibility(View.GONE);
-        }
+    protected void setVisibility4Clear() {
+        vClear.setVisibility(View.VISIBLE);
     }
 
 

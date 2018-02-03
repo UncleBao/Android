@@ -42,13 +42,16 @@ public abstract class PosTaskBase extends TaskBase {
             jsonObj = new JSONObject(result);
             if (!NetBase.isOK(jsonObj)) {
                 onTaskFailed(NetBase.getMsg(jsonObj));
+                return;
             }
         } catch (JSONException e) {
             onTaskFailed("数据解析失败!" + '\n' + result);
             System.out.println("解析数据失败:" + e.toString() + "\n result:" + result);
+            return;
         } catch (Exception e) {
             onTaskFailed("数据解析失败!202" + '\n' + result);
             System.out.println("解析数据失败202:" + e.toString() + "\n result:" + result);
+            return;
         }
         onTaskSuccess(jsonObj);
     }
